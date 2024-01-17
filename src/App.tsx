@@ -21,5 +21,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: 'white',
+    fontFamily: 'San Francisco',
   },
 });
