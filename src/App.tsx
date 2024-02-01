@@ -1,14 +1,40 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { useFonts, NanumMyeongjo_700Bold } from '@expo-google-fonts/nanum-myeongjo';
-import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 
 export default function App() {
   const isLoggedIn = false; // Replace with your authentication logic
 
   const handleLoginWithGoogle = () => {
     console.log('Login with Google clicked');
-    // Implement Google login logic here
+    // Google login & authentication
+    GoogleSignin.configure();
+    signIn = async () => {
+      try {
+        await GoogleSignin.hasPlayServices();
+        const userInfo = await GoogleSignin.signIn();
+        setState({ userInfo, error: undefined });
+      } catch (error) {
+        if (isErrorWithCode(error)) {
+          switch (error.code) {
+            case statusCodes.SIGN_IN_CANCELLED:
+              // user cancelled the login flow
+              break;
+            case statusCodes.IN_PROGRESS:
+              // operation (eg. sign in) already in progress
+              break;
+            case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+              // play services not available or outdated
+              break;
+            default:
+            // some other error happened
+          }
+        } else {
+          // an error that's not related to google sign in occurred
+        }
+      }
+    };
   };
 
   const [fontsLoaded] = useFonts({
