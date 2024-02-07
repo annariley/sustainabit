@@ -17,29 +17,29 @@ export default function App() {
   if (!fontsLoaded) {
     return <Text>Loading...</Text>;
   }
-
-  return (
-    <View style={styles.container}>
-      <Image
-        source={require('./assets/fern.png')} // Replace with the path to your app logo
-        style={styles.logo}
-      />
-      <Text style={styles.title}>Sustain-A-Bit</Text>
-
-      {!isLoggedIn ? (
+  if (!isLoggedIn){
+    return (
+      <View style={styles.container}>
+        <Image
+          source={require('./assets/fern.png')} 
+          style={styles.logo}
+        />
+        <Text style={styles.title}>Sustain-A-Bit</Text>
         <TouchableOpacity onPress={handleLoginWithGoogle} style={styles.loginButton}>
           <Text style={styles.buttonText}>Login with Google</Text>
         </TouchableOpacity>
-      ) : (
-        <View style={styles.homeContainer}>
-          <Text style={styles.text}>Welcome to Sustain-a-bit Home Feed!</Text>
-          {/* Add your home feed components here */}
-        </View>
-      )}
-
-      <StatusBar style="auto" />
+        <StatusBar style="auto" />
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.homeContainer}>
+      <Text style={styles.text}>Welcome to Sustain-a-bit Home Feed!</Text>
+      {/* Add your home feed components here */}
     </View>
-  );
+    );
+
+  }
 }
 
 const styles = StyleSheet.create({
