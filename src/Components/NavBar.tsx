@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   activeButton: {
     backgroundColor: '#cad7cc', // Active button color
     borderRadius: 5,
-    width:'20%'
+    width:'18%'
   },
   trackButton: {
     marginTop: '2%',

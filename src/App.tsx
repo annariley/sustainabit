@@ -1,8 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { useFonts, NanumMyeongjo_700Bold } from '@expo-google-fonts/nanum-myeongjo';
 import Home from "./Pages/Home";
 import NavBar from './Components/NavBar';
+import Header from './Components/Header';
+import Post from './Components/Post';
 
 export default function App() {
   const isLoggedIn = true; // Replace with your authentication logic
@@ -22,9 +24,9 @@ export default function App() {
 
   // Dummy data for posts
   const posts = [
-    { id: '1', title: 'Post 1', profileIcon: require('./assets/rynn.jpeg') },
-    { id: '2', title: 'Post 2', profileIcon: require('./assets/rynn.jpeg') },
-    { id: '3', title: 'Post 3', profileIcon: require('./assets/rynn.jpeg') },
+    { id: '1', name: "Rynn", title: 'Post 1', profileIcon: require('./assets/rynn.jpeg') },
+    { id: '2', name: "Rynn", title: 'Post 2', profileIcon: require('./assets/rynn.jpeg') },
+    { id: '3', name: "Rynn", title: 'Post 3', profileIcon: require('./assets/rynn.jpeg') },
     // Add more posts as needed
   ];
   if (!isLoggedIn){
@@ -46,37 +48,15 @@ export default function App() {
       <View style={styles.container}>
   
         {/* Search, settings, and notifications buttons */}
-        <View style={styles.headerButtons}>
-          <TouchableOpacity style={styles.headerButton}>
-            <Image source={require('./assets/home_icon.png')} style={styles.headerIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.headerButton}>
-            <Image source={require('./assets/home_icon.png')} style={styles.headerIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.headerButton}>
-            <Image source={require('./assets/home_icon.png')} style={styles.headerIcon} />
-          </TouchableOpacity>
-        </View>
-  
+        <Header title='Home'/>
         {/* List of posts */}
-        <FlatList
-          data={posts}
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.postContainer}>
-              <Image source={item.profileIcon} style={styles.profileIcon} />
-              <Text style={styles.postTitle}>{item.title}</Text>
-              <View style={styles.postActions}>
-                <TouchableOpacity>
-                  <Image source={require('./assets/home_icon.png')} style={styles.actionIcon} />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <Image source={require('./assets/home_icon.png')} style={styles.actionIcon} />
-                </TouchableOpacity>
-              </View>
-            </View>
-          )}
-        />
+
+        <ScrollView style={styles.scrollView}>
+          {/* Render the list of ProfilePreview components */}
+          {posts.map(({ id, name, title, profileIcon }) => (
+          <Post key={id} name={name} title={title} profilePic={profileIcon} />
+        ))}
+        </ScrollView>
         {/* Navigation bar */}
         <NavBar />
       </View>
@@ -169,8 +149,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     borderRadius: 10,
-    marginBottom: 10,
-    padding: 10,
+    marginVertical: 10,
+    width: '100%',
   },
   profileIcon: {
     width: 50,
@@ -189,5 +169,9 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     marginLeft: 10,
+  },
+  scrollView: {
+    flex: 1,
+    paddingHorizontal: 10,
   },
 });
