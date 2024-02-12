@@ -25,39 +25,45 @@ class NavBar extends Component<NavBarProps, NavBarState>  {
     const { activeButton } = this.state;
     return (
       <SafeAreaView style={styles.navigationBar}>
-      <TouchableOpacity
-        style={[styles.navButton, activeButton === 'home' && styles.activeButton]}
-        onPress={() => this.handlePress('home')}
-      >
+        <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={[styles.navButton, activeButton === 'home' && styles.activeButton]}
+          onPress={() => this.handlePress('home')}
+        >
           <Image source={require('../assets/home_icon.png')} style={styles.navIcon} />
           <Text style={styles.navText}>Home</Text>
         </TouchableOpacity>
+        </View>
+        <View style={styles.buttonContainer}>
         <TouchableOpacity
             style={[styles.navButton, activeButton === 'leaderboards' && styles.activeButton]}
             onPress={() => this.handlePress('leaderboards')}
           >
           <Image source={require('../assets/home_icon.png')} style={styles.navIcon} />
-          <Text style={[styles.navText, activeButton === 'home' && styles.activeText]}>Leaderboards</Text>
-        </TouchableOpacity>
+          <Text style={styles.navText}>Leaderboards</Text>
+        </TouchableOpacity></View>
+        <View style={styles.bigbuttonContainer}>
         <TouchableOpacity           
             style={styles.trackButton}>
           <Image source={require('../assets/home_icon.png')} style={styles.navIcon} />
           <Text style={styles.navText}>Track Activity</Text>
-        </TouchableOpacity>
+        </TouchableOpacity></View>
+        <View style={styles.buttonContainer}>
         <TouchableOpacity
             style={[styles.navButton, activeButton === 'comingsoon' && styles.activeButton]}
             onPress={() => this.handlePress('comingsoon')}
           >
           <Image source={require('../assets/home_icon.png')} style={styles.navIcon} />
           <Text style={styles.navText}>Coming Soon</Text>
-        </TouchableOpacity>
+        </TouchableOpacity></View>
+        <View style={styles.buttonContainer}>
         <TouchableOpacity           
             style={[styles.navButton, activeButton === 'personal' && styles.activeButton]}
             onPress={() => this.handlePress('personal')}
           >
           <Image source={require('../assets/home_icon.png')} style={styles.navIcon} />
           <Text style={styles.navText}>Personal</Text>
-        </TouchableOpacity>
+        </TouchableOpacity></View>
       </SafeAreaView>
     );
   }
@@ -65,6 +71,8 @@ class NavBar extends Component<NavBarProps, NavBarState>  {
 
 const styles = StyleSheet.create({
   navigationBar: {
+    borderTopWidth: 1,
+    borderTopColor: '#ccc',
     backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'space-around', // Spread items horizontally
@@ -74,13 +82,19 @@ const styles = StyleSheet.create({
   navButton: {
     marginTop: '2%',
     alignItems: 'center',
-    width:'20%'
   },
-
+  buttonContainer: {
+    alignItems: 'center',
+    width:'19%',
+  },
+  bigbuttonContainer: {
+    alignItems: 'center',
+    width:'24%'
+  },
   activeButton: {
     backgroundColor: '#cad7cc', // Active button color
     borderRadius: 5,
-    width:'18%'
+    width:'88%'
   },
   trackButton: {
     marginTop: '2%',
@@ -91,15 +105,18 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginBottom: 5,
+    marginTop: 5,
   },
   navText: {
     color: '#415A50',
     fontFamily: 'NanumMyeongjo',
     fontSize: 11,
+    marginBottom: 5,
   },
   activeText: {
     color: 'black', // Change the text color when button is active
-    fontSize: 11,
+    fontSize: 6,
+    marginBottom: 5,
   },
 });
 

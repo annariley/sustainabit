@@ -9,19 +9,21 @@ class Post extends Component<PostProps> {
   render() {
     const { name, title, profilePic } = this.props;
     return (
-      <View style={styles.postContainer}>
-        <Image source={profilePic} style={styles.profileIcon} />
-        <Text style={styles.postTitle}>{name}</Text>
-        <Text style={styles.postTitle}>{title}</Text>
-        <View style={styles.postActions}>
-          <TouchableOpacity>
-            <Image source={require('../assets/home_icon.png')} style={styles.actionIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image source={require('../assets/home_icon.png')} style={styles.actionIcon} />
-          </TouchableOpacity>
+        <View style={styles.postContainer}>
+            <View style={styles.headerContainer}>
+                <Image source={profilePic} style={styles.profileIcon} />
+                <Text style={styles.postTitle}>{name}</Text>
+                <Text style={styles.postTitle}>{title}</Text>
+                <View style={styles.postActions}>
+                    <TouchableOpacity>
+                        <Image source={require('../assets/home_icon.png')} style={styles.actionIcon} />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Image source={require('../assets/home_icon.png')} style={styles.actionIcon} />
+                    </TouchableOpacity>
+                </View>
+            </View>
         </View>
-      </View>
     );
   }
 }
@@ -33,9 +35,15 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     backgroundColor: 'white',
-    width: '100%',
+    width: '105%',
     justifyContent: 'space-around', 
     marginLeft: '-2.5%',
+    height: 150,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around', 
   },
   profileIcon: {
     width: 40,
