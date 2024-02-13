@@ -1,6 +1,7 @@
 // Header.tsx
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, SafeAreaView } from 'react-native';
+import colours from '../assets/constants/colours';
 
 interface HeaderProps {
   title: string;

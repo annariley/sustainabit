@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import colours from '../assets/constants/colours';
 interface PostProps {
     name: string;
     title: string;

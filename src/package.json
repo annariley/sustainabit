@@ -12,6 +12,7 @@
     "@expo-google-fonts/nanum-myeongjo": "^0.2.3",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/native": "^6.1.10",
+    "@react-navigation/native-stack": "^6.9.18",
     "@react-navigation/stack": "^6.3.21",
     "expo": "~49.0.15",
     "expo-font": "~11.4.0",
@@ -21,8 +22,8 @@
     "react-native": "0.72.6",
     "react-native-gesture-handler": "^2.15.0",
     "react-native-reanimated": "^3.7.0",
-    "react-native-safe-area-context": "^4.9.0",
-    "react-native-screens": "^3.29.0"
+    "react-native-safe-area-context": "4.6.3",
+    "react-native-screens": "~3.22.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
