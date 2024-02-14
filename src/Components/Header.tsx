@@ -14,16 +14,16 @@ class Header extends Component<HeaderProps> {
     return (
       <SafeAreaView style={styles.header}>
         <TouchableOpacity style={styles.headerButton}>
-          <Image source={require('../assets/home_icon.png')} style={styles.headerIcon} />
+          <Image source={require('../assets/search.png')} style={styles.headerIcon} />
         </TouchableOpacity>
         <View style={styles.headerTitleContainer}>
           <Text style={styles.headerTitle}>{title}</Text>
         </View>
         <TouchableOpacity style={styles.headerButton}>
-          <Image source={require('../assets/home_icon.png')} style={styles.headerIcon} />
+          <Image source={require('../assets/gears.png')} style={styles.headerIcon} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.headerButton}>
-          <Image source={require('../assets/home_icon.png')} style={styles.headerIcon} />
+          <Image source={require('../assets/bell.png')} style={styles.headerIcon} />
         </TouchableOpacity>
       </SafeAreaView>
     );

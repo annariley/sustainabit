@@ -17,10 +17,10 @@ class Post extends Component<PostProps> {
                 <Text style={styles.postTitle}>{title}</Text>
                 <View style={styles.postActions}>
                     <TouchableOpacity>
-                        <Image source={require('../assets/home_icon.png')} style={styles.actionIcon} />
+                        <Image source={require('../assets/likeleaf.png')} style={styles.actionIcon} />
                     </TouchableOpacity>
                     <TouchableOpacity>
-                        <Image source={require('../assets/home_icon.png')} style={styles.actionIcon} />
+                        <Image source={require('../assets/comment.png')} style={styles.actionIcon} />
                     </TouchableOpacity>
                 </View>
             </View>
