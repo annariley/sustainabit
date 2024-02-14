@@ -21,18 +21,18 @@ const Home = ({navigation}) => {
   };
     // Dummy data for posts
     const posts = [
-      { id: '1', name: "Rynn", title: 'Post 1', profileIcon: require('../assets/rynn.jpeg') },
-      { id: '2', name: "Rynn", title: 'Post 2', profileIcon: require('../assets/rynn.jpeg') },
-      { id: '3', name: "Rynn", title: 'Post 3', profileIcon: require('../assets/rynn.jpeg') },
-      { id: '4', name: "Rynn", title: 'Post 4', profileIcon: require('../assets/rynn.jpeg') },
-      { id: '5', name: "Rynn", title: 'Post 5', profileIcon: require('../assets/rynn.jpeg') },
-      { id: '6', name: "Rynn", title: 'Post 6', profileIcon: require('../assets/rynn.jpeg') },
-      { id: '7', name: "Rynn", title: 'Post 7', profileIcon: require('../assets/rynn.jpeg') },
-      { id: '8', name: "Rynn", title: 'Post 8', profileIcon: require('../assets/rynn.jpeg') },
-      { id: '9', name: "Rynn", title: 'Post 9', profileIcon: require('../assets/rynn.jpeg') },
-      { id: '10', name: "Rynn", title: 'Post 10', profileIcon: require('../assets/rynn.jpeg') },
-      { id: '11', name: "Rynn", title: 'Post 11', profileIcon: require('../assets/rynn.jpeg') },
-      { id: '12', name: "Rynn", title: 'Post 12', profileIcon: require('../assets/rynn.jpeg') },
+      { id: '1', name: "Rynn", title: 'Post 1', profileIcon: require('../assets/rynn.jpeg'), likes: 1, comments: 1 },
+      { id: '2', name: "Rynn", title: 'Post 2', profileIcon: require('../assets/rynn.jpeg'), likes: 2, comments: 2  },
+      { id: '3', name: "Rynn", title: 'Post 3', profileIcon: require('../assets/rynn.jpeg'), likes: 3, comments: 3  },
+      { id: '4', name: "Rynn", title: 'Post 4', profileIcon: require('../assets/rynn.jpeg'), likes: 4, comments: 4  },
+      { id: '5', name: "Rynn", title: 'Post 5', profileIcon: require('../assets/rynn.jpeg'), likes: 5, comments: 5  },
+      { id: '6', name: "Rynn", title: 'Post 6', profileIcon: require('../assets/rynn.jpeg'), likes: 6, comments: 6  },
+      { id: '7', name: "Rynn", title: 'Post 7', profileIcon: require('../assets/rynn.jpeg'), likes: 7, comments: 7  },
+      { id: '8', name: "Rynn", title: 'Post 8', profileIcon: require('../assets/rynn.jpeg'), likes: 8, comments: 8  },
+      { id: '9', name: "Rynn", title: 'Post 9', profileIcon: require('../assets/rynn.jpeg'), likes: 9, comments: 9  },
+      { id: '10', name: "Rynn", title: 'Post 10', profileIcon: require('../assets/rynn.jpeg'), likes: 10, comments: 10  },
+      { id: '11', name: "Rynn", title: 'Post 11', profileIcon: require('../assets/rynn.jpeg'), likes: 11, comments: 11  },
+      { id: '12', name: "Rynn", title: 'Post 12', profileIcon: require('../assets/rynn.jpeg'), likes: 12, comments: 12  },
       // Add more posts as needed
     ];
   return (
@@ -42,7 +42,7 @@ const Home = ({navigation}) => {
           <FlatList
             data={posts}
             renderItem={({ item }) => (
-              <Post name={item.name} title={item.title} profilePic={item.profileIcon} />
+              <Post name={item.name} title={item.title} profilePic={item.profileIcon} likes={item.likes} comments={item.comments} />
             )}
             keyExtractor={(item) => item.id}
             contentContainerStyle={styles.scrollView}

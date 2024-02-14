@@ -5,23 +5,35 @@ interface PostProps {
     name: string;
     title: string;
     profilePic: any;
+    likes: any;
+    comments: any;
   }
 class Post extends Component<PostProps> {
   render() {
-    const { name, title, profilePic } = this.props;
+    const { name, title, profilePic, likes, comments } = this.props;
     return (
         <View style={styles.postContainer}>
             <View style={styles.headerContainer}>
                 <Image source={profilePic} style={styles.profileIcon} />
                 <Text style={styles.postTitle}>{name}</Text>
                 <Text style={styles.postTitle}>{title}</Text>
-                <View style={styles.postActions}>
-                    <TouchableOpacity>
-                        <Image source={require('../assets/likeleaf.png')} style={styles.actionIcon} />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Image source={require('../assets/comment.png')} style={styles.actionIcon} />
-                    </TouchableOpacity>
+            </View>
+            <View style={styles.postActions}>
+                <View style={styles.likeContainer}>
+                  <TouchableOpacity>
+                    <View>
+                      <Image source={require('../assets/likeleaf.png')} style={styles.actionIcon} />
+                      <Text style={styles.postText}>{likes}</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.commentContainer}>
+                  <TouchableOpacity>
+                    <View>
+                      <Image source={require('../assets/comment.png')} style={styles.actionIcon} />
+                      <Text style={styles.postText}>{comments}</Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
             </View>
         </View>
@@ -31,7 +43,7 @@ class Post extends Component<PostProps> {
 
 const styles = StyleSheet.create({
   postContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
@@ -57,15 +69,39 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     flex: 1,
+    color: '#415A50',
+  },
+  postText: {
+    fontSize: 10,
+    flex: 1,
+    color: '#415A50',
   },
   postActions: {
     flexDirection: 'row',
+    height:'25%',
+    marginBottom:'-7%',
   },
   actionIcon: {
     width: 20,
     height: 20,
     marginLeft: 10,
     marginRight: 10,
+  },
+  likeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent:'center',
+    width:'50%',
+    borderWidth: 1,
+    borderColor: '#ccc',
+  },
+  commentContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent:'center',
+    width:'50%',
+    borderWidth: 1,
+    borderColor: '#ccc',
   },
 });
 
