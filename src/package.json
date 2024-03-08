@@ -11,6 +11,8 @@
   "dependencies": {
     "@expo-google-fonts/nanum-myeongjo": "^0.2.3",
     "@react-native-community/masked-view": "^0.1.11",
+    "@react-native-firebase/app": "^19.0.1",
+    "@react-native-firebase/firestore": "^19.0.1",
     "@react-navigation/native": "^6.1.10",
     "@react-navigation/native-stack": "^6.9.18",
     "@react-navigation/stack": "^6.3.21",

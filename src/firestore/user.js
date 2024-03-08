@@ -1,6 +1,5 @@
 import firestore from '@react-native-firebase/firestore'
 
-
 /*
 User
 */
@@ -52,5 +51,22 @@ export function createNewUser(
   password,
   email
 ) {
+  firestore()
+  .collection('users')
+  .add({
+    first_name: firstName,
+    last_name: lastName,
+    username: username,
+    password: password,
+    email: email,
 
+    carbon_baseline: 1,
+    carbon_reduction: 1,
+    creation_time: "1",
+    profile_picture: "tmp",
+    uid: "tmp"
+  })
+  .then(() => {
+    console.log("USER ADDED")
+  })
 }
