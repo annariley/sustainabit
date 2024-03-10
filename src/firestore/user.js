@@ -1,8 +1,9 @@
-import firestore from '@react-native-firebase/firestore'
+/*import firestore from '@react-native-firebase/firestore'
 
 /*
 User
 */
+/*
 export class UserDoc {
     constructor(userDocID) {
       this.userDoc = getUser(userDocID);
@@ -70,3 +71,5 @@ export function createNewUser(
     console.log("USER ADDED")
   })
 }
+
+*/
