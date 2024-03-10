@@ -15,14 +15,17 @@
       "**/*"
     ],
     "ios": {
-      "googleServices": "./GoogleService-Info.plist",
-      "supportsTablet": true
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sustainabit.sustainabit"
     },
     "android": {
+      "googleServicesFile": "google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.sustainabit.sustainabit"
     },
     "web": {
       "favicon": "./assets/favicon.png"
