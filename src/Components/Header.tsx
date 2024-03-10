@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, SafeAreaView } from 'react-native';
 import colours from '../assets/constants/colours';
+import { createNewUser } from '../firebase/users'
 
 interface HeaderProps {
   title: string;
@@ -13,7 +14,7 @@ class Header extends Component<HeaderProps> {
 
     return (
       <SafeAreaView style={styles.header}>
-        <TouchableOpacity style={styles.headerButton}>
+        <TouchableOpacity style={styles.headerButton} onPress={() => createNewUser("Iain", "Copland", "iainwcop", "tmppass", "tmp@tmp.ca")}>
           <Image source={require('../assets/search.png')} style={styles.headerIcon} />
         </TouchableOpacity>
         <View style={styles.headerTitleContainer}>
