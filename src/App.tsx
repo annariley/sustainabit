@@ -32,8 +32,8 @@ const Stack = createStackNavigator();
 export default function App() {
   useEffect(() => {
     loadFonts(); // Load fonts when the app starts
-    const fbapp = initializeApp(firebaseConfig);
-    const db = getFirestore(fbapp);
+    //const fbapp = initializeApp(firebaseConfig);
+    //const db = getFirestore(fbapp);
   }, []);
 
   const [isLoggedIn, setIsLoggedIn] = useState(true); // State to track login status

@@ -1,5 +1,5 @@
 // Header.tsx
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, SafeAreaView } from 'react-native';
 import colours from '../assets/constants/colours';
 import { user, createNewUser } from '../firebase/users';
@@ -14,9 +14,9 @@ async function handle() {
   createNewUser("Anna", "Riley", "ajriley", "pass", "ajr@yeet.com")
   for(let i = 0; i < 5; i++){
     createNewCommuteActivity("iainwcop", "bike", 10, "tmpref", 1, 100);
-    createNewPost("iainwcop", 0, "activities/tempIain", "Iain post #" + i + 5, 0);
+    createNewPost("iainwcop", 0, "activities/tempIain", "Iain post #" + i, 0);
     createNewCommuteActivity("mikan.soccer", "bike", 20, "tmpref", 1, 100);
-    createNewPost("mikan.soccer", 0, "activities/tempKiko", "Kiko post #" + i + 5, 0);
+    createNewPost("mikan.soccer", 0, "activities/tempKiko", "Kiko post #" + i, 0);
   }
   const anna = new user("ajriley")
   anna.addFriend("iainwcop")
