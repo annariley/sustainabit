@@ -2,10 +2,29 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, SafeAreaView } from 'react-native';
 import colours from '../assets/constants/colours';
-import { createNewUser } from '../firebase/users'
+import { user, createNewUser } from '../firebase/users';
+import { createNewPost } from '../firebase/posts';
+import { createNewCommuteActivity } from '../firebase/activities';
 
 interface HeaderProps {
   title: string;
+}
+
+async function handle() {
+  createNewUser("Anna", "Riley", "ajriley", "pass", "ajr@yeet.com")
+  for(let i = 0; i < 5; i++){
+    createNewCommuteActivity("iainwcop", "bike", 10, "tmpref", 1, 100);
+    createNewPost("iainwcop", 0, "activities/tempIain", "Iain post #" + i + 5, 0);
+    createNewCommuteActivity("mikan.soccer", "bike", 20, "tmpref", 1, 100);
+    createNewPost("mikan.soccer", 0, "activities/tempKiko", "Kiko post #" + i + 5, 0);
+  }
+  const anna = new user("ajriley")
+  anna.addFriend("iainwcop")
+  anna.addFriend("mikan.soccer")
+  await anna.update()
+  console.log("User Friends: ", anna.friends)
+  const feed = await anna.getFeed(10)
+  console.log("User Feed: ", feed)
 }
 
 class Header extends Component<HeaderProps> {
@@ -14,7 +33,7 @@ class Header extends Component<HeaderProps> {
 
     return (
       <SafeAreaView style={styles.header}>
-        <TouchableOpacity style={styles.headerButton} onPress={() => createNewUser("Iain", "Copland", "iainwcop", "tmppass", "tmp@tmp.ca")}>
+        <TouchableOpacity style={styles.headerButton} onPress={() => handle()}>
           <Image source={require('../assets/search.png')} style={styles.headerIcon} />
         </TouchableOpacity>
         <View style={styles.headerTitleContainer}>

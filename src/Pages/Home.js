@@ -7,10 +7,33 @@ import Post from '../Components/Post';
 import colours from '../assets/constants/colours';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { user, createNewUser } from '../firebase/users';
+
+async function getFeed() {
+  const posts = []
+  const numPosts = 10
+  const anna = new user("ajriley")
+  await anna.update()
+  
+  const feed = await anna.getFeed(10)
+    console.log("FEED: ", feed)
+  for (let i = 0; i < numPosts; i++){
+    posts[i] = {
+      id: i.toString(),
+      name: feed[i]['author'],
+      title: feed[i]['title'],
+      profileIcon: require('../assets/rynn.jpeg'),
+      likes: feed[i]['likes'],
+      comments: 0
+    }
+  }
+  console.log(posts)
+  return posts
+}
+
 
 const Home = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false); // State to track refreshing status
-
 
   const onRefresh = () => {
     setRefreshing(true);
