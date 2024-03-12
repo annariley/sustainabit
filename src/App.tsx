@@ -9,6 +9,16 @@ import Track from './Pages/Track';
 import ComingSoon from './Pages/ComingSoon';
 import Profile from './Pages/Profile';
 import * as Font from 'expo-font';
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore'
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyCY_0yMY9ebb5ITeIjyRCY8F2cHEyXy17I',
+  authDomain: 'sustainabit-ec733.firebaseapp.com',
+  databaseUrl: 'https://sustainabit-ec733.firebaseio.com',
+  projectId: 'sustainabit-ec733',
+  storageBucket: 'sustainabit-ec733.appspot.com',
+}
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -22,6 +32,8 @@ const Stack = createStackNavigator();
 export default function App() {
   useEffect(() => {
     fetchFonts(); // Load fonts when the app starts
+    //const fbapp = initializeApp(firebaseConfig);
+    //const db = getFirestore(fbapp);
   }, []);
 
   const [isLoggedIn, setIsLoggedIn] = useState(true); // State to track login status
