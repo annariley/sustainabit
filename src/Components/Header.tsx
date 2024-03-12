@@ -9,22 +9,37 @@ import { createNewCommuteActivity } from '../firebase/activities';
 interface HeaderProps {
   title: string;
 }
-
 async function handle() {
-  createNewUser("Anna", "Riley", "ajriley", "pass", "ajr@yeet.com")
-  for(let i = 0; i < 5; i++){
-    createNewCommuteActivity("iainwcop", "bike", 10, "tmpref", 1, 100);
-    createNewPost("iainwcop", 0, "activities/tempIain", "Iain post #" + i, 0);
-    createNewCommuteActivity("mikan.soccer", "bike", 20, "tmpref", 1, 100);
-    createNewPost("mikan.soccer", 0, "activities/tempKiko", "Kiko post #" + i, 0);
+  create();
+}
+async function create() {
+  for(let i = 0; i < 3; i++){
+    createNewCommuteActivity("iaincopland", "bike", 10, "tmpref", 1, 100);
+    createNewPost("iaincopland", 0, "activities/tempIain", "Iain biked to work!", 0);
+    createNewCommuteActivity("sikaparadis", "bike", 20, "tmpref", 1, 100);
+    createNewPost("sikaparadis", 0, "activities/tempKiko", "Sika biked to work!", 0);
+    createNewCommuteActivity("joelcheney", "bus", 20, "tmpref", 1, 100);
+    createNewPost("joelcheney", 0, "activities/tempKiko", "Joel took the bus!", 0);
+    createNewCommuteActivity("rynnzhang", "bike", 20, "tmpref", 1, 100);
+    createNewPost("rynnzhang", 0, "activities/tempKiko", "Rynn biked to work!", 0);
   }
-  const anna = new user("ajriley")
-  anna.addFriend("iainwcop")
-  anna.addFriend("mikan.soccer")
+}
+async function setup() {
+  createNewUser("Anna", "Riley", "annariley", "password", "annariley@sustainabit.ca");
+  createNewUser("Iain", "Copland", "iaincopland", "password", "iaincopland@sustainabit.ca");
+  createNewUser("Joel", "Cheney", "joelcheney", "password", "joelcheney@sustainabit.ca");
+  createNewUser("Sika", "Paradis", "sikaparadis", "password", "sikaparadis@sustainabit.ca");
+  createNewUser("Rynn", "Zhang", "rynnzhang", "password", "rynnzhang@sustainabit.ca");
+
+  const anna = new user("annariley")
+  anna.addFriend("iaincopland")
+  anna.addFriend("joelcheney")
+  anna.addFriend("rynnzhang")
+  anna.addFriend("sikaparadis")
+
   await anna.update()
+
   console.log("User Friends: ", anna.friends)
-  const feed = await anna.getFeed(10)
-  console.log("User Feed: ", feed)
 }
 
 class Header extends Component<HeaderProps> {

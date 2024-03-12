@@ -14,7 +14,7 @@ class Post extends Component<PostProps> {
     return (
         <View style={styles.postContainer}>
             <View style={styles.headerContainer}>
-                <Image source={profilePic} style={styles.profileIcon} />
+                <Image source={{uri:profilePic}} style={styles.profileIcon} />
                 <Text style={styles.postTitle}>{name}</Text>
                 <Text style={styles.postTitle}>{title}</Text>
             </View>

@@ -8,44 +8,44 @@ import colours from '../assets/constants/colours';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { user, createNewUser } from '../firebase/users';
+import { downloadImage } from '../firebase/storage';
 
-async function refreshFeed() {
-  const posts = []
-  const numPosts = 10
-  const anna = new user("ajriley")
-  await anna.update()
-  
-  const feed = await anna.getFeed(10)
-    console.log("FEED: ", feed)
-  for (let i = 0; i < numPosts; i++){
-    posts[i] = {
-      id: i.toString(),
-      name: feed[i]['author'],
-      title: feed[i]['title'],
-      profileIcon: require('../assets/rynn.jpeg'),
-      likes: feed[i]['likes'],
-      comments: 0
-    }
-  }
-  return posts
-}
+const USERNAME = "iaincopland"
 
 const Home = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false); // State to track refreshing status
-  posts = []
+  const [posts, setPosts] = useState([])
 
-  const onRefresh = async () => {
+  const onRefresh = () => {
     setRefreshing(true);
     // Simulate loading data for 2 seconds
-    posts = await refreshFeed()
-    console.log("ASYNC POSTS", posts)
+    getRecentFeed();
     setTimeout(() => {
       setRefreshing(false);
-    }, 2000);
+    }, 2000)
   };
 
-  console.log("POSTS: ", posts)
-    // Dummy data for posts
+  async function getRecentFeed() {
+    const numPosts = 10
+    const anna = new user("annariley")
+    await anna.update()
+    
+    const feed = await anna.getFeed(10)
+    for (let i = 0; i < numPosts; i++){
+      posts[i] = {
+        id: i.toString(),
+        name: feed[i]['author'],
+        title: feed[i]['title'],
+        profileIcon: await downloadImage(`/images/profile_pics/${feed[i]['author']}.png`),
+        likes: feed[i]['likes'],
+        comments: 0
+      }
+      console.log("NEW POST: ", posts[i])
+    }
+    setPosts(posts)
+  }
+
+    // OLD Dummy data for posts
     const posts2 = [
       { id: '1', name: "Rynn", title: 'Post 1', profileIcon: require('../assets/rynn.jpeg'), likes: 1, comments: 1 },
       { id: '2', name: "Rynn", title: 'Post 2', profileIcon: require('../assets/rynn.jpeg'), likes: 2, comments: 2  },
@@ -80,8 +80,6 @@ const Home = ({navigation}) => {
     </View>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   container: {

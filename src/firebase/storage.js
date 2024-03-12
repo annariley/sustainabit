@@ -1,4 +1,4 @@
-import { getStorage } from "firebase/storage";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 function tempInit() {
     const firebaseConfig = {
@@ -18,5 +18,16 @@ export function uploadImage(image, uploadPath) {
     const storage = getStorage();
     const uploadRef = ref(storage, uploadPath);
 
+}
+
+export async function downloadImage(storagePath) {
+    const storage = getStorage();
+    const imReference = ref(storage, storagePath);
+    //const imReference = ref(storage, 'gs://sustainabit-ec733.appspot.com/images/profile_pics/iaincopland.png')
+
+    console.log("Downloading image from ", storagePath)
+    const img_url = await getDownloadURL(imReference)
+
+    return img_url
 }
 
