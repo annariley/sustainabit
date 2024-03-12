@@ -30,7 +30,8 @@ function NavBar({ navigation, current }){
         </TouchableOpacity></View>
         <View style={styles.buttonContainer}>
         <TouchableOpacity           
-            style={styles.trackButton}>
+            style={styles.trackButton}
+            onPress={() => handlePress('TrackActivity')}>
           <Image source={require('../assets/track.png')} style={styles.trackIcon} />
         </TouchableOpacity></View>
         <View style={styles.buttonContainer}>

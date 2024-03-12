@@ -10,10 +10,10 @@ import ComingSoon from './Pages/ComingSoon';
 import Profile from './Pages/Profile';
 import * as Font from 'expo-font';
 
-const loadFonts = async () => {
-  await Font.loadAsync({
+const fetchFonts = () => {
+  return Font.loadAsync({
+    // The key is the name you'll use in your styles. The value is the path to the font file.
     'NanumMyeongjo-Regular': require('./assets/fonts/NanumMyeongjo-Regular.ttf'),
-    // Add more font weights if necessary
   });
 };
 
@@ -21,7 +21,7 @@ const Stack = createStackNavigator();
 
 export default function App() {
   useEffect(() => {
-    loadFonts(); // Load fonts when the app starts
+    fetchFonts(); // Load fonts when the app starts
   }, []);
 
   const [isLoggedIn, setIsLoggedIn] = useState(true); // State to track login status

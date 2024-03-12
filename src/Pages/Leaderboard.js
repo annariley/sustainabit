@@ -25,7 +25,10 @@ const Leaderboard = ({navigation}) => {
   return (
     <View style={styles.container}>
         <View style={styles.container}>
-          <Header title="Leaderboard" />
+          <Header title="Poo poo head" />
+          <View>
+            
+          </View>
           <FlatList
             data={posts}
             renderItem={()=> {<Text>Leaderboard Page</Text>}}
