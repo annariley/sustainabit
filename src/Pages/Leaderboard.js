@@ -25,7 +25,7 @@ const Leaderboard = ({navigation}) => {
   return (
     <View style={styles.container}>
         <View style={styles.container}>
-          <Header title="Poo poo head" />
+          <Header title="Leaderboard" />
           <View>
             
           </View>
