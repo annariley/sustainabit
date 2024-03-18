@@ -14,7 +14,8 @@ import Header from '../Components/Header';
 import NavBar from '../Components/NavBar';
 import ActivityDropdown from '../Components/dropdowns/ActivityDropdown';
 import TimeCompletedDropdown from '../Components/dropdowns/TimeCompletedDropdown';
-//import { launchImageLibrary } from 'react-native-image-picker';
+import { useContext } from 'react';
+import AppContext from '../Components/AppContext';
 
 
 // You'll want to create custom components for the Dropdown, ActivityItem, and BottomTab
@@ -24,7 +25,19 @@ const Track = ({ navigation }) => {
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [timeCompleted, setTimeCompleted] = useState(new Date());
   const [customText, onChangeCustomText] = useState('Describe your activity...');
+  const cur_user = useContext(AppContext)
 
+  async function trackActivity(activityType, textInput) {
+    await cur_user.update_local_info()
+    cur_user.trackActivity(activityType, textInput, commuteType="bike",commuteData="tmp")
+  }
+
+  const onPressPost = () => {
+    console.log(selectedActivity)
+    console.log(timeCompleted)
+    console.log(customText)
+    trackActivity(selectedActivity, customText)
+  }
   const onAddMediaPress = () =>{
   //   const options = {
   //     mediaType: 'photo',
@@ -58,7 +71,7 @@ const Track = ({ navigation }) => {
               borderRadius: 5,
               margin: '10%',
               marginBottom: '-1%',
-              height:'30%'
+              height: 100
             }}>
             <TextInput
               editable
@@ -74,6 +87,9 @@ const Track = ({ navigation }) => {
         <AddMedia onPress={onAddMediaPress} />
         <Text style={styles.text}>Time Completed: {timeCompleted.toLocaleString()}</Text>
         <TimeCompletedDropdown date={timeCompleted} setDate={setTimeCompleted} /> 
+        <TouchableOpacity style={styles.postButton} onPress={onPressPost}>
+          <Text style={styles.postText}>Upload Activity</Text>
+        </TouchableOpacity>
       </ScrollView>
       <NavBar navigation={navigation} current={'TrackActivity'} />
     </View>
@@ -103,6 +119,18 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#E0E0E0',
+  },
+  postButton: {
+    backgroundColor: '#50692D',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 10,
+  },
+  postText: {
+    color: 'white',
+    fontSize: 16,
   },
   // Add other styles as needed
 });

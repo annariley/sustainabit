@@ -7,14 +7,15 @@ import Post from '../Components/Post';
 import colours from '../assets/constants/colours';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { user, createNewUser } from '../firebase/users';
+import { user, createNewUser } from '../firebase/user';
 import { downloadImage } from '../firebase/storage';
-
-const USERNAME = "iaincopland"
+import { useContext } from 'react';
+import AppContext from '../Components/AppContext';
 
 const Home = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false); // State to track refreshing status
   const [posts, setPosts] = useState([])
+  const cur_user = useContext(AppContext)
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -27,10 +28,9 @@ const Home = ({navigation}) => {
 
   async function getRecentFeed() {
     const numPosts = 10
-    const anna = new user("annariley")
-    await anna.update()
+    await cur_user.update_local_info()
     
-    const feed = await anna.getFeed(10)
+    const feed = await cur_user.getFriendsFeed(10)
     for (let i = 0; i < numPosts; i++){
       posts[i] = {
         id: i.toString(),

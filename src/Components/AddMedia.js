@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderStyle: 'dashed', 
     margin: '10%',
-    height: '50%'
+    height: 100
   },
   icon: {
     width: 20, // Adjust the size to fit your design
