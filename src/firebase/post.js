@@ -30,15 +30,16 @@ export class post{
         this.postID = postID;
     }
 
-    async update_local_info() {
+    async sync() {
         this.postDoc = await this.getPostDoc()
         this.postData = this.postDoc.data()
+        console.log(this.postData)
 
         this.activityID = this.postData['activityID']
         this.activityDoc = await this.getActivityDoc()
         this.activityData = this.activityDoc.data()
 
-        this.user = new user(this.postData['author']);
+        this.author = this.postData['author'];
         this.activityType = this.postData['activityType'];
         this.title = this.postData['title'];
         this.visibility = this.postData['visibility']
@@ -46,6 +47,9 @@ export class post{
         this.timeCompleted = this.activityData['timeCompleted'];
         this.locationCompleted = this.postData[''];
         this.score = this.activityData['points'];
+        
+        this.likes = 0
+        this.comments = 0
         //TODO media
 
         //TODO likes

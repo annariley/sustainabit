@@ -28,7 +28,7 @@ const Track = ({ navigation }) => {
   const cur_user = useContext(AppContext)
 
   async function trackActivity(activityType, textInput) {
-    await cur_user.update_local_info()
+    await cur_user.sync()
     cur_user.trackActivity(activityType, textInput, commuteType="bike",commuteData="tmp")
   }
 

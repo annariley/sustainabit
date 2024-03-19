@@ -3,7 +3,9 @@ import { getDoc, setDoc, addDoc, collection, doc, Timestamp, getDocs, query, whe
 import { db } from './firebase';
 
 import { createNewCommuteActivity, createNewCustomActivity, createNewMealActivity } from './activity';
-import { createNewPost } from './post';
+import { createNewPost, post } from './post';
+
+import { downloadImage } from '../firebase/storage';
 
 
 
@@ -62,7 +64,7 @@ export class user{
         this.username = username;
     }
 
-    async update_local_info() {
+    async sync() {
         this.userDoc = await this.getUserDoc()
         this.userData = this.userDoc.data()
 
@@ -71,6 +73,8 @@ export class user{
         this.lastName = this.userData['lastName'];
         this.location = this.userData['location'];
         this.score = this.userData['score'];
+
+        this.profilePic = await downloadImage(`/images/profile_pics/${this.username}.png`)
 
         this.friends = await this.getFriends();
         this.feed = await this.getPersonalFeed();
@@ -241,8 +245,9 @@ export class user{
                         limit(numPosts));
         const qSnapshot = await getDocs(q)
         const feedData = []
-        qSnapshot.forEach((doc) => {
-            feedData.push(doc.data())
+        qSnapshot.forEach( (doc) => {
+            feedData.push(doc.id)
+            console.log(doc.id)
         })
         return feedData;
     }

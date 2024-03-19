@@ -11,6 +11,7 @@ import { user, createNewUser } from '../firebase/user';
 import { downloadImage } from '../firebase/storage';
 import { useContext } from 'react';
 import AppContext from '../Components/AppContext';
+import { post } from '../firebase/post';
 
 const Home = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false); // State to track refreshing status
@@ -27,10 +28,19 @@ const Home = ({navigation}) => {
   };
 
   async function getRecentFeed() {
-    const numPosts = 10
-    await cur_user.update_local_info()
+    const numPosts = 3
+    await cur_user.sync()
     
-    const feed = await cur_user.getFriendsFeed(10)
+    const postIDs = await cur_user.getFriendsFeed(numPosts);
+    console.log(postIDs)
+    for (let i = 0; i < numPosts; i++) {
+      next_post = new post(postIDs[i])
+      await next_post.sync()
+      author = new user(next_post.author)
+      await author.sync()
+      posts[i] = [next_post, author]
+    }
+    /*
     for (let i = 0; i < numPosts; i++){
       posts[i] = {
         id: i.toString(),
@@ -42,6 +52,8 @@ const Home = ({navigation}) => {
       }
       console.log("NEW POST: ", posts[i])
     }
+    */
+    console.log(posts)
     setPosts(posts)
   }
 
@@ -68,7 +80,7 @@ const Home = ({navigation}) => {
           <FlatList
             data={posts}
             renderItem={({ item }) => (
-              <Post name={item.name} title={item.title} profilePic={item.profileIcon} likes={item.likes} comments={item.comments} />
+              <Post name={item[1].username} title={item[0].title} profilePic={item[1].profilePic} likes={item[0].likes} comments={item[0].comments} />
             )}
             keyExtractor={(item) => item.id}
             contentContainerStyle={styles.scrollView}

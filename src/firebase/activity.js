@@ -1,4 +1,5 @@
 import { setDoc, addDoc, collection, doc, Timestamp } from 'firebase/firestore'
+import { db } from "./firebase";
 
 
 function processCommute(commuteData) {
