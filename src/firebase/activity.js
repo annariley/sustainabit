@@ -33,7 +33,7 @@ export async function createNewCommuteActivity(
             carbonReduced: carbonReduced,
             commuteData: commuteData,
             points: points,
-            timeComplete: timeCompleted
+            timeCompleted: timeCompleted
         });
     console.log("New Commute Activity Document written with ID: ", docRef.id)
 

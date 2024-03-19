@@ -1,10 +1,11 @@
 import { db } from "./firebase";
-import { setDoc, addDoc, collection, doc, Timestamp } from 'firebase/firestore'
+import { setDoc, addDoc, collection, doc, Timestamp, getDoc } from 'firebase/firestore'
+import { user } from "./user";
 
 export async function createNewPost(
     author,
     activityType,
-    activityRef,
+    activityID,
     title,
     visibility
 ){
@@ -12,10 +13,9 @@ export async function createNewPost(
     {
         author: author,
         activityType: activityType,
-        activityRef: activityRef,
+        activityID: activityID,
         title: title,
         visibility: visibility,
-        likes: 0,
         creationTime: Timestamp.now()
     });
     console.log("Post Document written with ID: ", docRef.id)
@@ -26,8 +26,56 @@ export async function createNewPost(
 }
 
 export class post{
-    constructor(postRef) {
-        this.postRef = postRef;
+    constructor(postID) {
+        this.postID = postID;
+    }
+
+    async update_local_info() {
+        this.postDoc = await this.getPostDoc()
+        this.postData = this.postDoc.data()
+
+        this.activityID = this.postData['activityID']
+        this.activityDoc = await this.getActivityDoc()
+        this.activityData = this.activityDoc.data()
+
+        this.user = new user(this.postData['author']);
+        this.activityType = this.postData['activityType'];
+        this.title = this.postData['title'];
+        this.visibility = this.postData['visibility']
+
+        this.timeCompleted = this.activityData['timeCompleted'];
+        this.locationCompleted = this.postData[''];
+        this.score = this.activityData['points'];
+        //TODO media
+
+        //TODO likes
+        //TODO comments
+    }
+
+    async getPostDoc(){
+        postDoc = await getDoc(doc(db, 'posts', this.postID))
+        return postDoc
+    }
+
+    async getActivityDoc(){
+        activityDoc = await getDoc(doc(db, 'activities', this.activityID))
+        return activityDoc
+    }
+
+    addLike() {
+        //TODO
+    }
+
+    removeLike() {
+        //TODO
+    }
+
+    addComment() {
+        //TODO
+    }
+
+    removeComment() {
+        //TODO
     }
 
 }

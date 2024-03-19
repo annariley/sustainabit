@@ -6,6 +6,7 @@ import { createNewCommuteActivity, createNewCustomActivity, createNewMealActivit
 import { createNewPost } from './post';
 
 
+
 const DUMMY_VAL = 1
 const DUMMY_STR = "tmp"
 
@@ -45,7 +46,7 @@ export async function searchUsers(queryString) {
 
     const results = [];
     qSnapshot.forEach((doc) => {
-        friends.push(doc.data())
+        results.push(doc.data())
     })
 
     return results
@@ -73,7 +74,6 @@ export class user{
 
         this.friends = await this.getFriends();
         this.feed = await this.getPersonalFeed();
-        console.log(this.friends)
     }
 
     async getUserDoc(){
@@ -104,7 +104,7 @@ export class user{
     ){
         switch (activityType) {
             case "commute": 
-                [activityRef, score] = await createNewCommuteActivity(
+                [activityID, score] = await createNewCommuteActivity(
                     this.username,
                     commuteType,
                     commuteData,
@@ -118,7 +118,7 @@ export class user{
                 break;
             
             case "veganMeal": 
-                [activityRef, score] = await createNewMealActivity(
+                [activityID, score] = await createNewMealActivity(
                     this.username,
                     timeCompleted
                 )
@@ -126,7 +126,7 @@ export class user{
                 break;
             
             case "custom": 
-                [activityRef, score] = await createNewCustomActivity(
+                [activityID, score] = await createNewCustomActivity(
                     this.username,
                     description,
                     timeCompleted
@@ -140,7 +140,7 @@ export class user{
         const postRef = await createNewPost(
             this.username,
             activityType,
-            activityRef,
+            activityID,
             title,
             visibility
         )
@@ -220,7 +220,7 @@ export class user{
 
         const leaderboard = [];
         qSnapshot.forEach((doc) => {
-            leaderboard.push([doc.data()['username'], doc.data()['score']])
+            leaderboard.push([doc.data()['username'], doc.data()['score'], doc.data()['location']])
         })
 
         return leaderboard
