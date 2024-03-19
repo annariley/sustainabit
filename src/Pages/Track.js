@@ -5,7 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView, 
-  TextInput
+  TextInput,
+  Button
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import AddMedia from '../Components/AddMedia';
@@ -43,6 +44,11 @@ const Track = ({ navigation }) => {
   //     }
   //   });
   }
+  const onPressPost = () => {
+    console.log(selectedActivity)
+    console.log(timeCompleted)
+    console.log(customText)
+  }
   return (
     <View style={styles.container}>
       <Header title="Track Activity" />
@@ -58,7 +64,7 @@ const Track = ({ navigation }) => {
               borderRadius: 5,
               margin: '10%',
               marginBottom: '-1%',
-              height:'30%'
+              height:100
             }}>
             <TextInput
               editable
@@ -74,6 +80,9 @@ const Track = ({ navigation }) => {
         <AddMedia onPress={onAddMediaPress} />
         <Text style={styles.text}>Time Completed: {timeCompleted.toLocaleString()}</Text>
         <TimeCompletedDropdown date={timeCompleted} setDate={setTimeCompleted} /> 
+        <TouchableOpacity style={styles.postButton} onPress={onPressPost}>
+          <Text style={styles.postText}>Upload Activity</Text>
+        </TouchableOpacity>
       </ScrollView>
       <NavBar navigation={navigation} current={'TrackActivity'} />
     </View>
@@ -96,13 +105,25 @@ const styles = StyleSheet.create({
     color: '#50692D',
     margin: 20,
   },
-  scrollView: {
-    flex: 1,
+  scrollView: { 
+    paddingBottom: 20, 
   },
   activityItem: {
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#E0E0E0',
+  },
+  postButton: {
+    backgroundColor: '#50692D',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 10,
+  },
+  postText: {
+    color: 'white',
+    fontSize: 16,
   },
   // Add other styles as needed
 });

@@ -26,6 +26,25 @@ const Profile = ({navigation}) => {
     <View style={styles.container}>
         <View style={styles.container}>
           <Header title="Personal" />
+          <View style={styles.containerHeading}>
+              <Image source={require('../assets/rynn.jpeg')} style={styles.profilePhoto} />
+              <Text style={styles.title}>Rynn Zhang (rynnzhang)</Text>
+              <Text style={styles.text}>Vancouver, BC</Text>
+              <View style={styles.pointBackground}>
+                <Text style={styles.pointText}>788,765</Text>
+              </View>
+              <View style={styles.headingContainer2}>
+                <View style={styles.headingContainer3}>
+                  <Text style={styles.title}>Friends</Text>
+                  <Text style={styles.text}>86</Text>
+                  <Text style={styles.title}>Activity</Text>
+                  <Text style={styles.text}>78</Text>
+                </View>
+                <View style={styles.headingContainer3}>
+                <Image source={require('../assets/carbonreduced.png')} style={styles.profilePhoto} />
+                </View>
+              </View>
+          </View>
           <FlatList
             data={posts}
             renderItem={()=> {<Text>Profile Page</Text>}}
@@ -45,31 +64,52 @@ const Profile = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#415A50',
+    backgroundColor: 'white',
   },
-  containerHome: {
+  containerHeading: {
     flex: 1,
-    backgroundColor: '#415A50',
     padding: 10,
     alignItems: 'center',
-    justifyContent: 'center',
+  },  
+  profilePhoto: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#415A50',
+    marginVertical:10
+  },
+  pointText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#415A50',
+    padding: 10
+  },
+  pointBackground: {
+    backgroundColor: '#E7ECDF',
+    borderRadius:20,
+  },
+  text: {
+    fontSize: 14,
+    color: '#415A50',
+  },
+  headingContainer2:{
+    flex:1,
+    flexDirection:'row',
+    height: 100
+  },
+  headingContainer3:{
+    flex:1,
+    flexDirection:'column',
+    alignItems: 'center',
+    justifyContent:'center'
   },
   logo: {
     width: 100,
     height: 100,
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 30,
-    fontFamily: 'NanumMyeongjo-Regular',
-    fontWeight: 'bold',
-    color: '#F8F1D5',
-    marginBottom: 20,
-  },
-  text: {
-    fontSize: 18,
-    fontFamily: 'NanumMyeongjo-Regular',
-    color: '#F8F1D5',
     marginBottom: 20,
   },
   loginButton: {
