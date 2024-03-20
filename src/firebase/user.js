@@ -77,7 +77,6 @@ export class user{
         this.profilePic = await downloadImage(`/images/profile_pics/${this.username}.png`)
 
         this.friends = await this.getFriends();
-        this.feed = await this.getPersonalFeed();
     }
 
     async getUserDoc(){
@@ -234,26 +233,31 @@ export class user{
     /*
     FEED
     */
-    async getFriendsFeed(numPosts) {
-        //TODO update to get only for confirmed friends
-        console.log("Getting ", numPosts, " most recent friends' posts for ", this.username)
+    async getFriendsFeed() {
+        console.log("Getting all friends' posts for ", this.username)
 
-        console.log(this.friends)
         const q = query(collection(db, 'posts'), 
                         where("author", "in", this.friends), 
-                        orderBy("creationTime", "desc"), 
-                        limit(numPosts));
+                        orderBy("creationTime", "desc"));
         const qSnapshot = await getDocs(q)
         const feedData = []
         qSnapshot.forEach( (doc) => {
             feedData.push(doc.id)
-            console.log(doc.id)
         })
         return feedData;
     }
 
     async getPersonalFeed() {
-        console.log()
-        //TODO
+        console.log("Getting personal feed for ", this.username)
+
+        const q = query(collection(db, 'posts'), 
+                        where("author", "==", this.username), 
+                        orderBy("creationTime", "desc"));
+        const qSnapshot = await getDocs(q)
+        const feedData = []
+        qSnapshot.forEach( (doc) => {
+            feedData.push(doc.id)
+        })
+        return feedData;
     }
 }

@@ -28,32 +28,22 @@ const Home = ({navigation}) => {
   };
 
   async function getRecentFeed() {
-    const numPosts = 3
     await cur_user.sync()
     
-    const postIDs = await cur_user.getFriendsFeed(numPosts);
-    console.log(postIDs)
-    for (let i = 0; i < numPosts; i++) {
-      next_post = new post(postIDs[i])
+    const postIDs = await cur_user.getFriendsFeed();
+    console.log("POST IDs: ", postIDs)
+    let posts = []
+    let i = 0
+    postIDs.forEach( async (next_post_id) => {
+      console.log(i)
+      i = i+1
+      let next_post = new post(next_post_id)
       await next_post.sync()
-      author = new user(next_post.author)
+      let author = new user(next_post.author)
       await author.sync()
-      posts[i] = [next_post, author]
-    }
-    /*
-    for (let i = 0; i < numPosts; i++){
-      posts[i] = {
-        id: i.toString(),
-        name: feed[i]['author'],
-        title: feed[i]['title'],
-        profileIcon: await downloadImage(`/images/profile_pics/${feed[i]['author']}.png`),
-        likes: feed[i]['likes'],
-        comments: 0
-      }
-      console.log("NEW POST: ", posts[i])
-    }
-    */
-    console.log(posts)
+      posts.push([next_post, author])
+    })
+  
     setPosts(posts)
   }
 
