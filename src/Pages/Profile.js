@@ -67,8 +67,9 @@ const Profile = ({navigation}) => {
           </View>
         </View>
         <View style={styles.flatListContainer}>
-
-          <Text style={styles.title}>Recent Activities</Text>
+          <View style={styles.activityHeaderContainer}>
+            <Text style={styles.title}>Recent Activities</Text>
+          </View>
           <FlatList
             data={posts}
             renderItem={({ item }) => (
@@ -85,8 +86,6 @@ const Profile = ({navigation}) => {
   );
 };
 
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -96,7 +95,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     alignItems: 'center',
-  },  
+  },
   profilePhoto: {
     width: 100,
     height: 100,
@@ -135,7 +134,6 @@ const styles = StyleSheet.create({
   },
   flatListContainer:{
     height:250,
-    alignItems:'center'
   },
   logo: {
     width: 100,
@@ -152,9 +150,14 @@ const styles = StyleSheet.create({
   scrollView: {
     flexGrow: 1,
     paddingHorizontal: 10,
+    backgroundColor: '#415A50',
   },
+  activityHeaderContainer: {
+    borderWidth: 1,
+    width:'100%',
+    borderColor: '#415A50',
+    alignItems:'center',
+  }
 });
-
-  
 
 export default Profile;

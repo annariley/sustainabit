@@ -27,6 +27,7 @@ export default function App() {
   const cur_user = new user(CUR_USER)
 
   useEffect(() => {
+    cur_user.sync()
     fetchFonts(); // Load fonts when the app starts
   }, []);
 
