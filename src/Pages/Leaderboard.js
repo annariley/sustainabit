@@ -26,17 +26,32 @@ const Leaderboard = ({navigation}) => {
     <View style={styles.container}>
         <View style={styles.container}>
           <Header title="Leaderboard" />
-          <View>
-            
+          <View style={styles.friendsContainer}>
+            <Text style={styles.friendsText}>Friends</Text>
           </View>
-          <FlatList
-            data={posts}
-            renderItem={()=> {<Text>Leaderboard Page</Text>}}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={styles.scrollView}
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
+          <View style={styles.pointContainer}>
+            <View style={{width:80, marginHorizontal:20, marginVertical:18}}>
+              <Text style={{fontSize: 15, fontWeight: 'bold', color: '#415A50'}}>Your score this month</Text>
+            </View>
+            <View style={styles.pointBackground}>
+              <Text style={styles.pointText}>786,675</Text>
+            </View>
+          </View>
+          {/* <View style={styles.sustainerContainer}>
+              <Text style={{fontSize: 15, fontWeight: 'bold', color: '#415A50'}}>Sustainer</Text>
+              <Text style={{fontSize: 15, fontWeight: 'bold', color: '#415A50'}}>Current Score</Text>
+          </View> */}
+          <View style={{height:495}}>
+            <FlatList
+              data={posts}
+              renderItem={()=> {<Text>Leaderboard Page</Text>}}
+              keyExtractor={(item) => item.id}
+              contentContainerStyle={styles.scrollView}
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          </View>
+
           <NavBar navigation={navigation} current={'Leaderboard'}/>
         </View>
     </View>
@@ -48,7 +63,8 @@ const Leaderboard = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#415A50',
+    flexDirection:'column',
+    backgroundColor: 'white',
   },
   containerHome: {
     flex: 1,
@@ -93,6 +109,46 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingTop: 1,
   },
+  friendsContainer: {
+    borderWidth: 1,
+    width:'100%',
+    height:35,
+    borderColor: '#415A50',
+    alignItems:'center',
+    backgroundColor:'white'
+  },  
+  sustainerContainer: {
+    flex:1,
+    flexDirection:'row',
+    borderWidth: 1,
+    width:'100%',
+    height:30,
+    marginVertical:30,
+    borderColor: '#415A50',
+    justifyContent:'space-around',
+  },
+  friendsText:{
+    fontSize: 16,
+    color: '#415A50',
+    marginTop:8
+  },
+  pointText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#415A50',
+    padding: 10,
+  },
+  pointBackground: {
+    backgroundColor: '#E7ECDF',
+    borderRadius:20,
+    marginVertical:10,
+    height:50
+  },
+  pointContainer:{
+    flex:1,
+    flexDirection:'row',
+    justifyContent:'center',
+  }
 });
 
   
