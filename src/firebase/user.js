@@ -77,6 +77,7 @@ export class user{
         this.profilePic = await downloadImage(`/images/profile_pics/${this.username}.png`)
 
         this.friends = await this.getFriends();
+        this.numPosts = await this.getNumPosts();
     }
 
     async getUserDoc(){
@@ -259,5 +260,18 @@ export class user{
             feedData.push(doc.id)
         })
         return feedData;
+    }
+
+    async getNumPosts() {
+        const q = query(collection(db, 'posts'), 
+                        where("author", "==", this.username), 
+                        orderBy("creationTime", "desc"));
+
+        const qSnapshot = await getDocs(q);
+        const feedData = []
+        qSnapshot.forEach( (doc) => {
+            feedData.push(doc.id)
+        })
+        return feedData.length
     }
 }

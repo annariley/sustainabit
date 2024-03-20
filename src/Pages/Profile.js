@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import NavBar from '../Components/NavBar';
 import Header from '../Components/Header';
@@ -6,13 +6,16 @@ import Post from '../Components/Post';
 import colours from '../assets/constants/colours';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { user, createNewUser } from '../firebase/users';
+import { user, createNewUser } from '../firebase/user';
 import { downloadImage } from '../firebase/storage';
+import { post } from '../firebase/post';
+import AppContext from '../Components/AppContext';
+
 
 const Profile = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false); // State to track refreshing status
   const [posts, setPosts] = useState([])
-
+  const cur_user = useContext(AppContext)
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -24,45 +27,40 @@ const Profile = ({navigation}) => {
   };
 
   async function getMyFeed() {
-    const numPosts = 10
-    const anna = new user("annariley")
-    await anna.update()
+    await cur_user.sync()
     
-    const feed = await anna.getFeed(10)
-    for (let i = 0; i < numPosts; i++){
-      posts[i] = {
-        id: i.toString(),
-        name: feed[i]['author'],
-        title: feed[i]['title'],
-        profileIcon: await downloadImage(`/images/profile_pics/${feed[i]['author']}.png`),
-        likes: feed[i]['likes'],
-        comments: 0
-      }
-      console.log("NEW POST: ", posts[i])
-    }
+    const postIDs = await cur_user.getPersonalFeed()
+    let posts = []
+    postIDs.forEach( async (next_post_id) => {
+      let next_post = new post(next_post_id)
+      await next_post.sync()
+      let author = new user(next_post.author)
+      await author.sync()
+      posts.push([next_post, author])
+    })
+
+    console.log("POSTS: ", posts)
+  
     setPosts(posts)
   }
-    // Dummy data for posts
-    const posts2 = [
-      { id: '1' },
-    ];
+
   return (
     <View style={styles.container}>
         <Header title="Personal" />
         <View style={styles.containerHeading}>
-            <Image source={require('../assets/rynn.jpeg')} style={styles.profilePhoto} />
-            <Text style={styles.title}>Rynn Zhang (rynnzhang)</Text>
-            <Text style={styles.text}>Vancouver, BC</Text>
+            <Image source={{uri:cur_user.profilePic}} style={styles.profilePhoto} />
+            <Text style={styles.title}>{cur_user.firstName} {cur_user.lastName} ({cur_user.username})</Text>
+            <Text style={styles.text}>{cur_user.location}</Text>
             <View style={styles.pointBackground}>
-              <Text style={styles.pointText}>788,765</Text>
+              <Text style={styles.pointText}>{cur_user.score}</Text>
             </View>
         </View>
         <View style={styles.headingContainer2}>
           <View style={styles.headingContainer3}>
             <Text style={styles.title}>Friends</Text>
-            <Text style={styles.text}>86</Text>
+            <Text style={styles.text}>{cur_user.friends.length}</Text>
             <Text style={styles.title}>Activity</Text>
-            <Text style={styles.text}>78</Text>
+            <Text style={styles.text}>{cur_user.numPosts}</Text>
           </View>
           <View style={styles.headingContainer3}>
           <Image source={require('../assets/carbonreduced.png')} style={styles.profilePhoto} />
@@ -74,7 +72,7 @@ const Profile = ({navigation}) => {
           <FlatList
             data={posts}
             renderItem={({ item }) => (
-              <Post name={item.name} title={item.title} profilePic={item.profileIcon} likes={item.likes} comments={item.comments} />
+              <Post name={item[1].username} title={item[0].title} profilePic={item[1].profilePic} likes={item[0].likes} comments={item[0].comments} />
             )}
             keyExtractor={(item) => item.id}
             contentContainerStyle={styles.scrollView}
