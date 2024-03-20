@@ -7,14 +7,16 @@ import Post from '../Components/Post';
 import colours from '../assets/constants/colours';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { user, createNewUser } from '../firebase/users';
+import { user, createNewUser } from '../firebase/user';
 import { downloadImage } from '../firebase/storage';
-
-const USERNAME = "iaincopland"
+import { useContext } from 'react';
+import AppContext from '../Components/AppContext';
+import { post } from '../firebase/post';
 
 const Home = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false); // State to track refreshing status
   const [posts, setPosts] = useState([])
+  const cur_user = useContext(AppContext)
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -26,22 +28,22 @@ const Home = ({navigation}) => {
   };
 
   async function getRecentFeed() {
-    const numPosts = 10
-    const anna = new user("annariley")
-    await anna.update()
+    await cur_user.sync()
     
-    const feed = await anna.getFeed(10)
-    for (let i = 0; i < numPosts; i++){
-      posts[i] = {
-        id: i.toString(),
-        name: feed[i]['author'],
-        title: feed[i]['title'],
-        profileIcon: await downloadImage(`/images/profile_pics/${feed[i]['author']}.png`),
-        likes: feed[i]['likes'],
-        comments: 0
-      }
-      console.log("NEW POST: ", posts[i])
-    }
+    const postIDs = await cur_user.getFriendsFeed();
+    console.log("POST IDs: ", postIDs)
+    let posts = []
+    let i = 0
+    postIDs.forEach( async (next_post_id) => {
+      console.log(i)
+      i = i+1
+      let next_post = new post(next_post_id)
+      await next_post.sync()
+      let author = new user(next_post.author)
+      await author.sync()
+      posts.push([next_post, author])
+    })
+  
     setPosts(posts)
   }
 
@@ -68,7 +70,7 @@ const Home = ({navigation}) => {
           <FlatList
             data={posts}
             renderItem={({ item }) => (
-              <Post name={item.name} title={item.title} profilePic={item.profileIcon} likes={item.likes} comments={item.comments} />
+              <Post name={item[1].username} title={item[0].title} profilePic={item[1].profilePic} likes={item[0].likes} comments={item[0].comments} />
             )}
             keyExtractor={(item) => item.id}
             contentContainerStyle={styles.scrollView}

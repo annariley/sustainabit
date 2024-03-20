@@ -15,7 +15,8 @@ import Header from '../Components/Header';
 import NavBar from '../Components/NavBar';
 import ActivityDropdown from '../Components/dropdowns/ActivityDropdown';
 import TimeCompletedDropdown from '../Components/dropdowns/TimeCompletedDropdown';
-//import { launchImageLibrary } from 'react-native-image-picker';
+import { useContext } from 'react';
+import AppContext from '../Components/AppContext';
 
 
 // You'll want to create custom components for the Dropdown, ActivityItem, and BottomTab
@@ -25,7 +26,19 @@ const Track = ({ navigation }) => {
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [timeCompleted, setTimeCompleted] = useState(new Date());
   const [customText, onChangeCustomText] = useState('Describe your activity...');
+  const cur_user = useContext(AppContext)
 
+  async function trackActivity(activityType, textInput) {
+    await cur_user.sync()
+    cur_user.trackActivity(activityType, textInput, commuteType="bike",commuteData="tmp")
+  }
+
+  const onPressPost = () => {
+    console.log(selectedActivity)
+    console.log(timeCompleted)
+    console.log(customText)
+    trackActivity(selectedActivity, customText)
+  }
   const onAddMediaPress = () =>{
   //   const options = {
   //     mediaType: 'photo',
@@ -44,11 +57,6 @@ const Track = ({ navigation }) => {
   //     }
   //   });
   }
-  const onPressPost = () => {
-    console.log(selectedActivity)
-    console.log(timeCompleted)
-    console.log(customText)
-  }
   return (
     <View style={styles.container}>
       <Header title="Track Activity" />
@@ -64,7 +72,7 @@ const Track = ({ navigation }) => {
               borderRadius: 5,
               margin: '10%',
               marginBottom: '-1%',
-              height:100
+              height: 100
             }}>
             <TextInput
               editable
