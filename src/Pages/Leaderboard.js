@@ -40,7 +40,7 @@ const Leaderboard = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
         <View style={styles.container}>
-          <Header title="Leaderboard" />
+          <Header navigation={navigation} current={'Leaderboard'} title={"Leaderboard"} />
           <View style={styles.friendsContainer}>
             <Text style={styles.friendsText}>Friends</Text>
           </View>

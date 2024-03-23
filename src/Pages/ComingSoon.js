@@ -25,7 +25,7 @@ const ComingSoon = ({navigation}) => {
   return (
     <View style={styles.container}>
         <View style={styles.container}>
-          <Header title="Coming Soon" />
+          <Header navigation={navigation} current={'ComingSoon'} title={"Coming Soon"} />
           <FlatList
             data={posts}
             renderItem={()=> {<Text>Coming Soon</Text>}}

@@ -1,24 +1,20 @@
-// Header.tsx
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, SafeAreaView } from 'react-native';
 import colours from '../assets/constants/colours';
 import { user, createNewUser } from '../firebase/user';
 import { createNewCommuteActivity } from '../firebase/activity';
 
-interface HeaderProps {
-  title: string;
-}
-function handle(){
-  
-}
 
-class Header extends Component<HeaderProps> {
-  render() {
-    const { title } = this.props;
 
+function Header ({ navigation, current, title }) {
+
+    function search() {
+      console.log("pressing search button")
+      navigation.navigate('Search');
+    }
     return (
       <SafeAreaView style={styles.header}>
-        <TouchableOpacity style={styles.headerButton} onPress={() => handle()}>
+        <TouchableOpacity style={styles.headerButton} onPress={search()}>
           <Image source={require('../assets/search.png')} style={styles.headerIcon} />
         </TouchableOpacity>
         <View style={styles.headerTitleContainer}>
@@ -32,7 +28,6 @@ class Header extends Component<HeaderProps> {
         </TouchableOpacity>
       </SafeAreaView>
     );
-  }
 }
 
 const styles = StyleSheet.create({
@@ -55,11 +50,11 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       marginLeft: '12%'
     },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color:'#415A50'
-  },
+    headerTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color:'#415A50'
+    },
 });
 
 export default Header;

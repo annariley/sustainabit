@@ -63,7 +63,7 @@ const Track = ({ navigation }) => {
   }
   return (
     <View style={styles.container}>
-      <Header title="Track Activity" />
+      <Header navigation={navigation} current={'TrackActivity'} title={"Track Activity"} />
       <ScrollView style={styles.scrollView}>
         <Text style={styles.text}>Activity: {selectedActivity}</Text>
         <ActivityDropdown value={selectedActivity} setValue={setSelectedActivity} />

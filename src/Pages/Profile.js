@@ -80,7 +80,7 @@ const Profile = ({route, navigation}) => {
     console.log("TRUE")
     return (
       <View style={styles.container}>
-          <Header title="Personal" />
+          <Header navigation={navigation} current={'Personal'} title={"Personal"} />
           <View style={styles.containerHeading}>
               <Image source={require('../assets/willow.png')} style={styles.profilePhoto} />
               <Text style={styles.title}>Loading...</Text>
@@ -121,7 +121,7 @@ const Profile = ({route, navigation}) => {
     console.log("FALSE")
     return (
       <View style={styles.container}>
-          <Header title="Personal" />
+          <Header navigation={navigation} current={'Personal'} title={"Personal"} />
           <View style={styles.containerHeading}>
               <Image source={{uri:profUser.profilePic}} style={styles.profilePhoto} />
               <Text style={styles.title}>{profUser.firstName} {profUser.lastName} ({profUser.username})</Text>

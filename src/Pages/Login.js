@@ -25,7 +25,7 @@ const Login = ({navigation}) => {
   return (
     <View style={styles.container}>
         <View style={styles.container}>
-          <Header title="Login" />
+          <Header navigation={navigation} current={'Login'} title={"Login"} />
           <FlatList
             data={posts}
             renderItem={()=> {<Text>Login Page</Text>}}

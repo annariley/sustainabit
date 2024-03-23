@@ -58,7 +58,7 @@ const Home = ({navigation}) => {
   return (
     <View style={styles.container}>
         <View style={styles.container}>
-          <Header title="Home" />
+          <Header navigation={navigation} current={'Home'} title={"Home"} />
           <FlatList
             data={posts}
             renderItem={({ item }) => (
