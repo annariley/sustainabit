@@ -82,7 +82,7 @@ const Profile = ({route, navigation}) => {
       <View style={styles.container}>
           <Header title="Personal" />
           <View style={styles.containerHeading}>
-              <Image source={require('../assets/rynn.jpeg')} style={styles.profilePhoto} />
+              <Image source={require('../assets/willow.png')} style={styles.profilePhoto} />
               <Text style={styles.title}>Loading...</Text>
               <Text style={styles.text}>Loading...</Text>
               <View style={styles.pointBackground}>

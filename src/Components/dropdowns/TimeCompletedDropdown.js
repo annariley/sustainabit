@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
       justifyContent:'center',
       width:'100%',
       backgroundColor: '#F5F5F5',
-      zIndex:1000
+      zIndex:999
     },
   });
 

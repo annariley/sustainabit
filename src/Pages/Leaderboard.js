@@ -1,29 +1,44 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, FlatList, SafeAreaView } from 'react-native';
 import NavBar from '../Components/NavBar';
 import Header from '../Components/Header';
 import Post from '../Components/Post';
 import colours from '../assets/constants/colours';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import ProfilePreview from '../Components/ProfilePreview';
 
 const Leaderboard = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false); // State to track refreshing status
+  const [profiles, setProfiles] = useState(null);
 
+  async function getMyLeaderboard() {
+    setProfiles([{
+      id: 1,
+      name: "annariley",
+      points: 100,
+      profilePic: require('../assets/willow.png'),
+    }, {
+      id: 2,
+      name: "rynnzhang",
+      points: 100,
+      profilePic: require('../assets/willow.png'),
+    }, ])
+  }
 
   const onRefresh = () => {
     setRefreshing(true);
+    getMyLeaderboard().then(() => {
+      setRefreshing(false)
+    })
+
     // Simulate loading data for 2 seconds
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
   };
-    // Dummy data for posts
-    const posts = [
-      { id: '1' },
-    ];
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
         <View style={styles.container}>
           <Header title="Leaderboard" />
           <View style={styles.friendsContainer}>
@@ -37,15 +52,18 @@ const Leaderboard = ({navigation}) => {
               <Text style={styles.pointText}>786,675</Text>
             </View>
           </View>
-          {/* <View style={styles.sustainerContainer}>
-              <Text style={{fontSize: 15, fontWeight: 'bold', color: '#415A50'}}>Sustainer</Text>
-              <Text style={{fontSize: 15, fontWeight: 'bold', color: '#415A50'}}>Current Score</Text>
-          </View> */}
+          <View style={{height:35, marginVertical:5}}>
+            <View style={styles.sustainerContainer}>
+                <Text style={{fontSize: 15, fontWeight: 'bold', color: '#415A50', marginRight:50}}>Sustainer</Text>
+                <Text style={{fontSize: 15, fontWeight: 'bold', color: '#415A50', marginLeft:50}}>Current Score</Text>
+            </View>
+          </View>
           <View style={{height:495}}>
             <FlatList
-              data={posts}
-              renderItem={()=> {<Text>Leaderboard Page</Text>}}
-              keyExtractor={(item) => item.id}
+              data={profiles}
+              renderItem={({ item }) => (
+                <ProfilePreview id={"Loading"} name={"Loading"} points={0} profilePic={require('../assets/willow.png')} displayPoints={true} />
+              )}
               contentContainerStyle={styles.scrollView}
               refreshing={refreshing}
               onRefresh={onRefresh}
@@ -54,7 +72,7 @@ const Leaderboard = ({navigation}) => {
 
           <NavBar navigation={navigation} current={'Leaderboard'}/>
         </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -122,10 +140,10 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     borderWidth: 1,
     width:'100%',
-    height:30,
-    marginVertical:30,
+    height:40,
     borderColor: '#415A50',
     justifyContent:'space-around',
+    alignItems: 'center'
   },
   friendsText:{
     fontSize: 16,
@@ -145,7 +163,7 @@ const styles = StyleSheet.create({
     height:50
   },
   pointContainer:{
-    flex:1,
+    // flex:1,
     flexDirection:'row',
     justifyContent:'center',
   }

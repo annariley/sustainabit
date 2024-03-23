@@ -19,16 +19,16 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderColor: '#50692D',
-    borderRadius: 4,
+    borderRadius: 6,
     borderStyle: 'dashed', 
-    margin: '10%',
-    height: 100
+    margin: '5%',
+    height: 140
   },
   icon: {
     width: 20, // Adjust the size to fit your design
     height: 20, // Adjust the size to fit your design
     marginRight: 5,
-    marginBottom: '5%'
+    marginBottom: 20
   },
   text: {
     color: '#50692D', // Adjust the color to fit your design

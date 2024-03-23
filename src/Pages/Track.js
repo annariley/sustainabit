@@ -15,6 +15,8 @@ import Header from '../Components/Header';
 import NavBar from '../Components/NavBar';
 import ActivityDropdown from '../Components/dropdowns/ActivityDropdown';
 import TimeCompletedDropdown from '../Components/dropdowns/TimeCompletedDropdown';
+import VisibilityDropdown from '../Components/dropdowns/VisibilityDropdown';
+import CommuteDropdown from '../Components/dropdowns/CommuteDropdown';
 import { useContext } from 'react';
 import AppContext from '../Components/AppContext';
 
@@ -25,6 +27,8 @@ import AppContext from '../Components/AppContext';
 const Track = ({ navigation }) => {
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [timeCompleted, setTimeCompleted] = useState(new Date());
+  const [visibility, setVisibility] = useState(null);
+  const [commuteType, setCommuteType] = useState(null);
   const [customText, onChangeCustomText] = useState('Describe your activity...');
   const cur_user = useContext(AppContext)
 
@@ -88,6 +92,15 @@ const Track = ({ navigation }) => {
         <AddMedia onPress={onAddMediaPress} />
         <Text style={styles.text}>Time Completed: {timeCompleted.toLocaleString()}</Text>
         <TimeCompletedDropdown date={timeCompleted} setDate={setTimeCompleted} /> 
+        <Text style={styles.text}>Visibility: {visibility}</Text>
+        <VisibilityDropdown value={visibility} setValue={setVisibility} />
+        {selectedActivity == 'commute' ?
+        <View>
+          <Text style={styles.text}>Type of commute: {commuteType}</Text>
+          <CommuteDropdown value={commuteType} setValue={setCommuteType} />
+        </View>
+        :
+        <View></View>}
         <TouchableOpacity style={styles.postButton} onPress={onPressPost}>
           <Text style={styles.postText}>Upload Activity</Text>
         </TouchableOpacity>
@@ -111,7 +124,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#50692D',
-    margin: 20,
+    margin: 10,
   },
   scrollView: { 
     paddingBottom: 20, 
@@ -128,6 +141,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     margin: 10,
+    marginBottom:110,
+    zIndex:-1
   },
   postText: {
     color: 'white',
