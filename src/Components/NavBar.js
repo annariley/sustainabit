@@ -3,10 +3,19 @@ import { TouchableOpacity, Text, View, StyleSheet, SafeAreaView, Image } from 'r
 import colours from '../assets/constants/colours';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useContext } from 'react';
+import AppContext from '../Components/AppContext';
 
+    
 function NavBar({ navigation, current }){
+  const cur_user = useContext(AppContext)
+  
   function handlePress(button) {
-    navigation.navigate(button);
+    if (button == "Personal") {
+      navigation.navigate(button, {profileUserId: cur_user.username})
+    } else {
+      navigation.navigate(button);
+    }
   }
 
   return (
