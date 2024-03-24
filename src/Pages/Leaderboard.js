@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, FlatList, SafeAreaView } from 'react-native';
 import NavBar from '../Components/NavBar';
 import Header from '../Components/Header';
@@ -7,29 +7,50 @@ import colours from '../assets/constants/colours';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ProfilePreview from '../Components/ProfilePreview';
+import { useContext } from 'react';
+import AppContext from '../Components/AppContext';
+import { isValidTimestamp } from '@firebase/util';
+import { downloadImage } from '../firebase/storage';
 
 const Leaderboard = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false); // State to track refreshing status
-  const [profiles, setProfiles] = useState(null);
+  const [leaderboard, setLeaderboard] = useState(null);
+  const cur_user = useContext(AppContext)
+
+  useEffect(() => {
+    console.log("Fetching data for leaderboard: ")
+    setRefreshing(true)
+
+    cur_user.sync().then(() => {
+      getMyLeaderboard().then(() =>{
+        setRefreshing(false)
+      })
+    })
+  }, []);
 
   async function getMyLeaderboard() {
-    setProfiles([{
-      id: 1,
-      name: "annariley",
-      points: 100,
-      profilePic: require('../assets/willow.png'),
-    }, {
-      id: 2,
-      name: "rynnzhang",
-      points: 100,
-      profilePic: require('../assets/willow.png'),
-    }, ])
+    const friendScores = await cur_user.getFriendLeaderboard()
+    console.log(friendScores)
+    let leaderboard = []
+    for (let i = 0; i < friendScores.length; i++) {
+      leaderboard.push({
+        id: i,
+        name: friendScores[i][0],
+        points: friendScores[i][1],
+        profilePic: await downloadImage(`/images/profile_pics/${friendScores[i][0]}.png`)
+      })
+    }
+    console.log("Got leaderboard data: ")
+    console.log(leaderboard)
+    setLeaderboard(leaderboard)
   }
 
   const onRefresh = () => {
     setRefreshing(true);
-    getMyLeaderboard().then(() => {
-      setRefreshing(false)
+    cur_user.sync().then(() => {
+      getMyLeaderboard().then(() =>{
+        setRefreshing(false)
+      })
     })
 
     // Simulate loading data for 2 seconds
@@ -60,10 +81,11 @@ const Leaderboard = ({navigation}) => {
           </View>
           <View style={{height:495}}>
             <FlatList
-              data={profiles}
+              data={leaderboard}
               renderItem={({ item }) => (
-                <ProfilePreview id={"Loading"} name={"Loading"} points={0} profilePic={require('../assets/willow.png')} displayPoints={true} />
+                <ProfilePreview id={item.id} name={item.name} points={item.points} profilePic={item.profilePic} displayPoints={true} />
               )}
+              keyExtractor={(item) => item.id}
               contentContainerStyle={styles.scrollView}
               refreshing={refreshing}
               onRefresh={onRefresh}

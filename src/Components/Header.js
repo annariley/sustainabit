@@ -10,7 +10,7 @@ function Header ({ navigation, current, title }) {
 
     function handleSearch() {
       console.log("pressing search button")
-      navigation.navigate('Search');
+      //navigation.navigate('Search');
     }
     return (
       <SafeAreaView style={styles.header}>

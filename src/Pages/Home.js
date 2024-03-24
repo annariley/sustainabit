@@ -33,7 +33,7 @@ const Home = ({navigation}) => {
     })
     setTimeout(() => {
       setRefreshing(false);
-    }, 2000)
+    }, 5000)
   };
 
   async function getRecentFeed() {
@@ -67,7 +67,7 @@ const Home = ({navigation}) => {
             keyExtractor={(item) => item[0].id}
             contentContainerStyle={styles.scrollView}
             refreshing={refreshing}
-            onRefresh={onRefresh}
+            onRefresh={this.props}
           />
           <NavBar navigation={navigation} current={'Home'}/>
         </View>

@@ -18,26 +18,42 @@ const Profile = ({route, navigation}) => {
   const [profUser, setUser] = useState(null)
 
   useEffect(() => {
-    console.log("ENTERED EFFECT")
+    console.log("Fetching data for profile: ")
     setRefreshing(true)
+
     setupUser().then(() => {
-      setRefreshing(false)
+      getUserFeed().then(() => {
+        setRefreshing(false)
+      })
     })
   }, []);
 
   async function setupUser(){
-    console.log("ENTERED SETUP")
+    console.log("Setting up user...")
+
     const username = route.params['profileUserId']
     new_user = new user(username)
-    
-    console.log("Setup User")
-    console.log(new_user)
     await new_user.sync()
-    setUser(new_user)
 
-    await getMyFeed()
-      
-    return new_user
+    setUser(new_user)
+  }
+
+  async function getUserFeed() {
+
+    await profUser.sync()
+    
+    const postIDs = await profUser.getPersonalFeed()
+    let posts = []
+
+    postIDs.forEach( async (next_post_id) => {
+      let next_post = new post(next_post_id)
+      await next_post.sync()
+      let author = new user(next_post.author)
+      await author.sync()
+      posts.push([next_post, author])
+    })
+  
+    setPosts(posts)
   }
 
   const onRefresh = () => {
@@ -50,31 +66,6 @@ const Profile = ({route, navigation}) => {
       setRefreshing(false);
     }, 2000);
   };
-
-  async function getMyFeed() {
-
-    await profUser.sync()
-    
-    const postIDs = await profUser.getPersonalFeed()
-    let posts = []
-    postIDs.forEach( async (next_post_id) => {
-      let next_post = new post(next_post_id)
-      await next_post.sync()
-      let author = new user(next_post.author)
-      await author.sync()
-      posts.push([next_post, author])
-    })
-
-    console.log("POSTS: ", posts)
-  
-    setPosts(posts)
-  }
-
-  async function setup(){
-    profUser = new user("annariley")
-    await profUser.sync()
-    return
-  }
 
   if (profUser == null){
     console.log("TRUE")
@@ -154,6 +145,7 @@ const Profile = ({route, navigation}) => {
               contentContainerStyle={styles.scrollView}
               refreshing={refreshing}
               onRefresh={onRefresh}
+              extraData={this.state}
             />
           </View>
           <NavBar navigation={navigation} current={'Personal'}/>

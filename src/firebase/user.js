@@ -218,8 +218,12 @@ export class user{
     }
 
     async getFriendLeaderboard() {
-        const q = query(collection(db, 'users', this.username, 'friends'),
-                        where("status", "==", "friends"));
+        //const q = query(collection(db, 'users', this.username, 'friends'),
+        //                where("status", "==", "friends"),
+        //                orderBy("score"));
+        const q = query(collection(db, 'users'),
+                        where("username", 'in', this.friends),
+                        orderBy("score", 'desc'))
         const qSnapshot = await getDocs(q)
 
         const leaderboard = [];
