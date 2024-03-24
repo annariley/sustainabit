@@ -8,13 +8,13 @@ import { createNewCommuteActivity } from '../firebase/activity';
 
 function Header ({ navigation, current, title }) {
 
-    function search() {
+    function handleSearch() {
       console.log("pressing search button")
       navigation.navigate('Search');
     }
     return (
       <SafeAreaView style={styles.header}>
-        <TouchableOpacity style={styles.headerButton} onPress={search()}>
+        <TouchableOpacity style={styles.headerButton} onPress={handleSearch()}>
           <Image source={require('../assets/search.png')} style={styles.headerIcon} />
         </TouchableOpacity>
         <View style={styles.headerTitleContainer}>

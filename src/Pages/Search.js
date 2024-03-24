@@ -36,9 +36,10 @@ const Search = ({ route, navigation }) => {
     <Header navigation={navigation} current={'Search'} title={"Search"} />
       <TextInput
         style={styles.searchInput}
-        placeholder="Search by username"
+        placeholder="Search by username..."
         value={searchTerm}
         onChangeText={setSearchTerm}
+        placeholderTextColor="#50692D"
       />
       <FlatList
         data={users}
@@ -56,7 +57,7 @@ const Search = ({ route, navigation }) => {
         )}
       />
 
-    <NavBar navigation={navigation} current={'Home'}/>
+    <NavBar navigation={navigation} current={'Search'}/>
     </View>
   );
 };
@@ -69,8 +70,10 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     height: 40,
-    borderColor: 'white',
+    borderColor: '#50692D',
+    backgroundColor:'white',
     borderWidth: 1,
+    borderRadius:8,
     padding: 10,
     margin: 10,
     color:'#50692D'
