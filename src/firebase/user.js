@@ -10,7 +10,6 @@ import { downloadImage } from '../firebase/storage';
 
 
 const DUMMY_VAL = 1
-const DUMMY_STR = "tmp"
 
 export async function createNewUser(
     firstName,
@@ -51,6 +50,17 @@ export async function searchUsers(queryString) {
         results.push(doc.data())
     })
 
+    return results
+}
+
+export async function getAllSearchUsers() {
+    const users = collection(db, 'users')
+    const collectionSnapshot = await getDocs(users)
+
+    const results = []
+    collectionSnapshot.forEach((doc) => {
+        results.push(doc.id)
+    })
     return results
 }
 
@@ -116,8 +126,12 @@ export class user{
                 )
                 if (commuteType == "bike") {
                     title = this.firstName + " biked to work!"
-                } else if (commuteType == "bus") {
-                    title = this.firstName + " took the bus to work!"
+                } else if (commuteType == "transit") {
+                    title = this.firstName + " took transit to work!"
+                } else if (commuteType == "walk") {
+                    title = this.firstName + " walked to work!"
+                } else if (commuteType == "carpool") {
+                    title = this.firstName + " carpooled to work!"
                 }
                 break;
             

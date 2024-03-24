@@ -32,16 +32,13 @@ const Track = ({ navigation }) => {
   const [customText, onChangeCustomText] = useState('Describe your activity...');
   const cur_user = useContext(AppContext)
 
-  async function trackActivity(activityType, textInput) {
+  async function trackActivity() {
     await cur_user.sync()
-    cur_user.trackActivity(activityType, textInput, commuteType="bike",commuteData="tmp")
+    cur_user.trackActivity(selectedActivity, visibility, commuteType, commuteData="tmp", description=customText)
   }
 
   const onPressPost = () => {
-    console.log(selectedActivity)
-    console.log(timeCompleted)
-    console.log(customText)
-    trackActivity(selectedActivity, customText)
+    trackActivity(selectedActivity, customText, commuteType)
   }
   const onAddMediaPress = () =>{
   //   const options = {

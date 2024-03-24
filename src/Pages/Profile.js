@@ -21,8 +21,8 @@ const Profile = ({route, navigation}) => {
     console.log("Fetching data for profile: ")
     setRefreshing(true)
 
-    setupUser().then(() => {
-      getUserFeed().then(() => {
+    setupUser().then((cur_user) => {
+      getUserFeed(cur_user).then(() => {
         setRefreshing(false)
       })
     })
@@ -36,29 +36,34 @@ const Profile = ({route, navigation}) => {
     await new_user.sync()
 
     setUser(new_user)
+
+    return new_user
   }
 
-  async function getUserFeed() {
+  async function getUserFeed(cur_user) {
 
-    await profUser.sync()
+    console.log("Getting Feed...")
+
+    await cur_user.sync()
     
-    const postIDs = await profUser.getPersonalFeed()
-    let posts = []
+    const postIDs = await cur_user.getPersonalFeed()
+    let formattedPosts = []
 
+    console.log("Got posts for user, setting up...")
     postIDs.forEach( async (next_post_id) => {
       let next_post = new post(next_post_id)
       await next_post.sync()
       let author = new user(next_post.author)
       await author.sync()
-      posts.push([next_post, author])
+      formattedPosts.push([next_post, author])
     })
   
-    setPosts(posts)
+    setPosts(formattedPosts)
   }
 
   const onRefresh = () => {
     setRefreshing(true);
-    getMyFeed().then(() => {
+    getUserFeed(profUser).then(() => {
       setRefreshing(false)
     })
     // Simulate loading data for 2 seconds
@@ -66,9 +71,8 @@ const Profile = ({route, navigation}) => {
       setRefreshing(false);
     }, 2000);
   };
-
+  
   if (profUser == null){
-    console.log("TRUE")
     return (
       <View style={styles.container}>
           <Header navigation={navigation} current={'Personal'} title={"Personal"} />
@@ -84,7 +88,7 @@ const Profile = ({route, navigation}) => {
             <View style={styles.headingContainer3}>
               <Text style={styles.title}>Friends</Text>
               <Text style={styles.text}>{"Loading..."}</Text>
-              <Text style={styles.title}>Activity</Text>
+              <Text style={styles.title}>Activities</Text>
               <Text style={styles.text}>{"Loading..."}</Text>
             </View>
             <View style={styles.headingContainer3}>
@@ -109,7 +113,6 @@ const Profile = ({route, navigation}) => {
       </View>
     );
   } else {
-    console.log("FALSE")
     return (
       <View style={styles.container}>
           <Header navigation={navigation} current={'Personal'} title={"Personal"} />
@@ -145,7 +148,6 @@ const Profile = ({route, navigation}) => {
               contentContainerStyle={styles.scrollView}
               refreshing={refreshing}
               onRefresh={onRefresh}
-              extraData={this.state}
             />
           </View>
           <NavBar navigation={navigation} current={'Personal'}/>

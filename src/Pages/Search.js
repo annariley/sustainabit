@@ -3,32 +3,40 @@ import { View, TextInput, FlatList, StyleSheet, Button, SafeAreaView } from 'rea
 import ProfilePreview from '../Components/ProfilePreview'; 
 import Header from '../Components/Header';
 import NavBar from '../Components/NavBar';
+import { searchUsers } from '../firebase/user';
+import { downloadImage } from '../firebase/storage';
 // Mock data and function for demonstration purposes
-const usersData = [
-  { id: '1', name: 'annariley', points: 120, profilePic: require('../assets/rynn.jpeg')},
-  { id: '2', name: 'rynnzhang', points: 150, profilePic: require('../assets/rynn.jpeg') },
-  { id: '3', name: 'iaincopland', points: 120, profilePic: require('../assets/rynn.jpeg') },
-  { id: '4', name: 'joelcheney', points: 150, profilePic: require('../assets/rynn.jpeg')},
-  { id: '5', name: 'sikaparadis', points: 120, profilePic: require('../assets/rynn.jpeg') },
-  // Add more users as needed
-];
 
-const fetchUsersBySearchTerm = (searchTerm) => {
-  return usersData.filter(user => user.name.toLowerCase().includes(searchTerm.toLowerCase()));
-};
+
 
 const Search = ({ route, navigation }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [users, setUsers] = useState([]);
+  const [userData, setUserData] = useState([])
 
   useEffect(() => {
     if (searchTerm) {
-      const fetchedUsers = fetchUsersBySearchTerm(searchTerm);
-      setUsers(fetchedUsers);
+      searchUsers(searchTerm.toLowerCase()).then((results) => {
+        setupResults(results)
+      })
     } else {
       setUsers([]);
     }
+    
   }, [searchTerm]);
+  
+  async function setupResults(results){
+    let formattedResults = []
+    results.forEach( async (result) => {
+      formattedResults.push({
+        username: result['username'],
+        score: result['score'],
+        profilePic: await downloadImage(`/images/profile_pics/${result['username']}.png`)
+      })
+    })
+
+    setUsers(formattedResults)
+  }
 
   return (
     <View style={styles.container}>
@@ -49,8 +57,8 @@ const Search = ({ route, navigation }) => {
             route={route}
             navigation={navigation}
             id={item.id}
-            name={item.name}
-            points={item.points}
+            name={item.username}
+            points={item.score}
             profilePic={item.profilePic}
             displayPoints={false}
           />
