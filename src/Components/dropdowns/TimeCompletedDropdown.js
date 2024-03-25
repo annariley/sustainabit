@@ -12,6 +12,7 @@ const TimeCompletedDropdown = ({ date, setDate }) => {
   const [show, setShow] = useState(false);
 
   const onChange = (event, selectedDate) => {
+    console.log(selectedDate)
     const currentDate = selectedDate;
     setShow(false);
     setDate(currentDate);

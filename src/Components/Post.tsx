@@ -4,18 +4,22 @@ import colours from '../assets/constants/colours';
 interface PostProps {
     name: string;
     title: string;
+    time: string;
     profilePic: any;
     likes: any;
     comments: any;
   }
 class Post extends Component<PostProps> {
   render() {
-    const { name, title, profilePic, likes, comments } = this.props;
+    const { name, title, time,  profilePic, likes, comments } = this.props;
     return (
         <View style={styles.postContainer}>
             <View style={styles.headerContainer}>
                 <Image source={{uri:profilePic}} style={styles.profileIcon} />
-                <Text style={styles.postTitle}>{name}</Text>
+                <View style={{flex:1,flexDirection:'column'}}>
+                  <Text style={styles.postText}>{time}</Text>
+                  <Text style={styles.postTitle}>{name}</Text>
+                </View>
                 <Text style={styles.postTitle}>{title}</Text>
             </View>
             <View style={styles.postActions}>
