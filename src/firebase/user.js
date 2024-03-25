@@ -87,6 +87,7 @@ export class user{
         this.profilePic = await downloadImage(`/images/profile_pics/${this.username}.png`)
 
         this.friends = await this.getFriends();
+        this.friendsProfilePics = await this.getFriendsProfilePics();
         this.numPosts = await this.getNumPosts();
     }
 
@@ -202,6 +203,14 @@ export class user{
         return friends
     }
 
+    async getFriendsProfilePics() {
+        profPics = {}
+        for (let i = 0; i < this.friends.length; i++) {
+            profPics[this.friends[i]] = await downloadImage(`/images/profile_pics/${this.friends[i]}.png`)
+        }
+        return profPics
+    }
+
     async getFriendRequests() {
         console.log("Getting pending friend requests for ", this.username)
         const q = query(collection(db, 'users', this.username, 'friends'),
@@ -252,7 +261,7 @@ export class user{
     /*
     FEED
     */
-    async getFriendsFeed() {
+    async getFriendsFeedOld() {
         console.log("Getting all friends' posts for ", this.username)
 
         const q = query(collection(db, 'posts'), 
@@ -262,6 +271,27 @@ export class user{
         const feedData = []
         qSnapshot.forEach( (doc) => {
             feedData.push(doc.id)
+        })
+        return feedData;
+    }
+
+    async getFriendsFeed() {
+        console.log("Getting all friends' posts for ", this.username)
+
+        const q = query(collection(db, 'posts'), 
+                        where("author", "in", this.friends), 
+                        orderBy("creationTime", "desc"));
+
+        const qSnapshot = await getDocs(q)
+        const feedData = []
+        qSnapshot.forEach( (doc) => {
+            feedData.push({
+                id: doc.id,
+                name: doc.data()['author'],
+                title: doc.data()['title'],
+                likes: 0,
+                comments: 0
+            })
         })
         return feedData;
     }

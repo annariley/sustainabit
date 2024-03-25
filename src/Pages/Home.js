@@ -38,22 +38,8 @@ const Home = ({navigation}) => {
 
   async function getRecentFeed() {
     await cur_user.sync()
-    
-    const postIDs = await cur_user.getFriendsFeed();
-    console.log("POST IDs: ", postIDs)
-    let posts = []
-    let i = 0
-    postIDs.forEach( async (next_post_id) => {
-      console.log(i)
-      i = i+1
-      let next_post = new post(next_post_id)
-      await next_post.sync()
-      let author = new user(next_post.author)
-      await author.sync()
-      posts.push([next_post, author])
-    })
-    console.log(posts)
-    setPosts(posts)
+    const load_posts = await cur_user.getFriendsFeed()
+    setPosts(load_posts)
   }
   function formatTime(timestamp) {
     const { seconds, nanoseconds } = timestamp;
@@ -75,13 +61,14 @@ const Home = ({navigation}) => {
           <Header navigation={navigation} current={'Home'} title={"Home"} />
           <FlatList
             data={posts}
-            renderItem={({ item }) => (
-              <Post name={item[1].username} title={item[0].title} time={formatTime(item[0].timeCompleted)} profilePic={item[1].profilePic} likes={item[0].likes} comments={item[0].comments} />
+            renderItem={({ item }) => (item[0].likes
+              <Post name={item['name']} title={item['title']} time={formatTime(item['time'])} profilePic={cur_user.friendsProfilePics[item['name']]} likes={item['likes']} comments={item['comments']} />
             )}
             keyExtractor={(item) => item.id}
             contentContainerStyle={styles.scrollView}
             refreshing={refreshing}
             onRefresh={onRefresh}
+            extraData={posts}
           />
           <NavBar navigation={navigation} current={'Home'}/>
         </View>
