@@ -40,6 +40,20 @@ const Leaderboard = ({navigation}) => {
         profilePic: await downloadImage(`/images/profile_pics/${friendScores[i][0]}.png`)
       })
     }
+    leaderboard.push({
+      id: friendScores.length,
+      name: cur_user.username,
+      points: cur_user.score,
+      profilePic: cur_user.profilePic
+    })
+
+    leaderboard.sort(function(a,b) {
+      var keyA = a.points;
+      var keyB = b.points;
+      if (keyA < keyB) return 1;
+      if (keyB < keyA) return -1;
+      return 0;
+    })
     console.log("Got leaderboard data: ")
     console.log(leaderboard)
     setLeaderboard(leaderboard)
@@ -70,7 +84,7 @@ const Leaderboard = ({navigation}) => {
               <Text style={{fontSize: 15, fontWeight: 'bold', color: '#415A50'}}>Your score this month</Text>
             </View>
             <View style={styles.pointBackground}>
-              <Text style={styles.pointText}>786,675</Text>
+              <Text style={styles.pointText}>{cur_user.score}</Text>
             </View>
           </View>
           <View style={{height:35, marginVertical:5}}>

@@ -13,7 +13,7 @@ import * as Font from 'expo-font';
 import { user } from './firebase/user';
 import AppContext from './Components/AppContext';
 
-const CUR_USER = "annariley"
+const CUR_USER = "iaincopland"
 
 const fetchFonts = () => {
   return Font.loadAsync({
