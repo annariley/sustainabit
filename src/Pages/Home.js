@@ -61,7 +61,7 @@ const Home = ({navigation}) => {
           <Header navigation={navigation} current={'Home'} title={"Home"} />
           <FlatList
             data={posts}
-            renderItem={({ item }) => (item[0].likes
+            renderItem={({ item }) => (
               <Post name={item['name']} title={item['title']} time={formatTime(item['time'])} profilePic={cur_user.friendsProfilePics[item['name']]} likes={item['likes']} comments={item['comments']} />
             )}
             keyExtractor={(item) => item.id}

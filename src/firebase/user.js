@@ -290,7 +290,8 @@ export class user{
                 name: doc.data()['author'],
                 title: doc.data()['title'],
                 likes: 0,
-                comments: 0
+                comments: 0,
+                time: doc.data()['creationTime']
             })
         })
         return feedData;
