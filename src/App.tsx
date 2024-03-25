@@ -15,12 +15,12 @@ import AppContext from './Components/AppContext';
 
 const CUR_USER = "iaincopland"
 
-const fetchFonts = () => {
-  return Font.loadAsync({
-    // The key is the name you'll use in your styles. The value is the path to the font file.
-    'NanumMyeongjo-Regular': require('./assets/fonts/NanumMyeongjo-Regular.ttf'),
-  });
-};
+// const fetchFonts = () => {
+//   return Font.loadAsync({
+//     // The key is the name you'll use in your styles. The value is the path to the font file.
+//     'NanumMyeongjo-Regular': require('./assets/fonts/NanumMyeongjo-Regular.ttf'),
+//   });
+// };
 
 const Stack = createStackNavigator();
 
@@ -29,7 +29,7 @@ export default function App() {
 
   useEffect(() => {
     cur_user.sync()
-    fetchFonts(); // Load fonts when the app starts
+    //fetchFonts(); // Load fonts when the app starts
   }, []);
 
 

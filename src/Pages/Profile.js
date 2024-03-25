@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#F8F1D5',
-    fontFamily: 'NanumMyeongjo-Regular',
+    //fontFamily: 'NanumMyeongjo-Regular',
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 16,

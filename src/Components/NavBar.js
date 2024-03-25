@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   activeButton: {
     backgroundColor: '#cad7cc', // Active button color
     borderRadius: 5,
-    width:'90%'
+    width:'92%'
   },
   trackButton: {
     marginTop: '2%',
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
   navText: {
     color: '#415A50',
-    fontFamily: 'NanumMyeongjo-Regular',
+    //fontFamily: 'NanumMyeongjo-Regular',
     fontSize: 11,
     marginBottom: 5,
   },

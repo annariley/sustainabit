@@ -10,13 +10,15 @@ function Header ({ navigation, current, title }) {
 
     function handleSearch() {
       console.log("pressing search button")
-      //navigation.navigate('Search');
+      navigation.navigate('Search');
     }
     return (
       <SafeAreaView style={styles.header}>
-        <TouchableOpacity style={styles.headerButton} onPress={handleSearch()}>
-          <Image source={require('../assets/search.png')} style={styles.headerIcon} />
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity style={styles.headerButton} onPress={handleSearch}>
+            <Image source={require('../assets/search.png')} style={styles.headerIcon} />
+          </TouchableOpacity>
+        </View>
         <View style={styles.headerTitleContainer}>
           <Text style={styles.headerTitle}>{title}</Text>
         </View>

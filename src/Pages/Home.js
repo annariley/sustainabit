@@ -67,7 +67,7 @@ const Home = ({navigation}) => {
             keyExtractor={(item) => item.id}
             contentContainerStyle={styles.scrollView}
             refreshing={refreshing}
-            onRefresh={this.props}
+            onRefresh={onRefresh}
           />
           <NavBar navigation={navigation} current={'Home'}/>
         </View>
@@ -97,14 +97,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontFamily: 'NanumMyeongjo-Regular',
+    //fontFamily: 'NanumMyeongjo-Regular',
     fontWeight: 'bold',
     color: '#F8F1D5',
     marginBottom: 20,
   },
   text: {
     fontSize: 18,
-    fontFamily: 'NanumMyeongjo-Regular',
+    //fontFamily: 'NanumMyeongjo-Regular',
     color: '#F8F1D5',
     marginBottom: 20,
   },
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#F8F1D5',
-    fontFamily: 'NanumMyeongjo-Regular',
+    //fontFamily: 'NanumMyeongjo-Regular',
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 16,
