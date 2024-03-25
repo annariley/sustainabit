@@ -71,6 +71,20 @@ const Profile = ({route, navigation}) => {
       setRefreshing(false);
     }, 2000);
   };
+  function formatTime(timestamp) {
+    const { seconds, nanoseconds } = timestamp;
+    // Create a Date object using the seconds (multiplied by 1000 to convert to milliseconds)
+    const date = new Date(seconds * 1000 + nanoseconds / 1000000);
+    
+    // Convert to a local date string
+    const dateString = date.toLocaleDateString("en-US"); // Adjust the locale as needed
+    const timeString = date.toLocaleTimeString("en-US"); // Adjust the locale as needed
+    
+    // Combine date and time for full timestamp in local string format
+    const fullDateTimeString = `${dateString} ${timeString}`;
+    
+    return fullDateTimeString;
+  }
   
   if (profUser == null){
     return (
@@ -142,7 +156,7 @@ const Profile = ({route, navigation}) => {
             <FlatList
               data={posts}
               renderItem={({ item }) => (
-                <Post name={item[1].username} title={item[0].title}  time={item[1].creationTime} profilePic={item[1].profilePic} likes={item[0].likes} comments={item[0].comments} />
+                <Post name={item[1].username} title={item[0].title}  time={formatTime(item[0].timeCompleted)} profilePic={item[1].profilePic} likes={item[0].likes} comments={item[0].comments} />
               )}
               keyExtractor={(item) => item.id}
               contentContainerStyle={styles.scrollView}
