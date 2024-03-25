@@ -38,23 +38,10 @@ const Home = ({navigation}) => {
 
   async function getRecentFeed() {
     await cur_user.sync()
-    
-    const postIDs = await cur_user.getFriendsFeed();
-    console.log("POST IDs: ", postIDs)
-    let posts = []
-    let i = 0
-    postIDs.forEach( async (next_post_id) => {
-      console.log(i)
-      i = i+1
-      let next_post = new post(next_post_id)
-      await next_post.sync()
-      let author = new user(next_post.author)
-      await author.sync()
-      posts.push([next_post, author])
-    })
-  
-    setPosts(posts)
+    const load_posts = await cur_user.getFriendsFeed()
+    setPosts(load_posts)
   }
+  
   return (
     <View style={styles.container}>
         <View style={styles.container}>
@@ -62,12 +49,13 @@ const Home = ({navigation}) => {
           <FlatList
             data={posts}
             renderItem={({ item }) => (
-              <Post name={item[1].username} title={item[0].title} profilePic={item[1].profilePic} likes={item[0].likes} comments={item[0].comments} />
+              <Post name={item['name']} title={item['title']} profilePic={cur_user.friendsProfilePics[item['name']]} likes={item['likes']} comments={item['comments']} />
             )}
             keyExtractor={(item) => item.id}
             contentContainerStyle={styles.scrollView}
             refreshing={refreshing}
-            onRefresh={this.props}
+            onRefresh={onRefresh}
+            extraData={posts}
           />
           <NavBar navigation={navigation} current={'Home'}/>
         </View>
