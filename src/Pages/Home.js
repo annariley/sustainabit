@@ -41,7 +41,20 @@ const Home = ({navigation}) => {
     const load_posts = await cur_user.getFriendsFeed()
     setPosts(load_posts)
   }
-  
+  function formatTime(timestamp) {
+    const { seconds, nanoseconds } = timestamp;
+    // Create a Date object using the seconds (multiplied by 1000 to convert to milliseconds)
+    const date = new Date(seconds * 1000 + nanoseconds / 1000000);
+    
+    // Convert to a local date string
+    const dateString = date.toLocaleDateString("en-US"); // Adjust the locale as needed
+    const timeString = date.toLocaleTimeString("en-US"); // Adjust the locale as needed
+    
+    // Combine date and time for full timestamp in local string format
+    const fullDateTimeString = `${dateString} ${timeString}`;
+    
+    return fullDateTimeString;
+  }
   return (
     <View style={styles.container}>
         <View style={styles.container}>
@@ -49,7 +62,7 @@ const Home = ({navigation}) => {
           <FlatList
             data={posts}
             renderItem={({ item }) => (
-              <Post name={item['name']} title={item['title']} profilePic={cur_user.friendsProfilePics[item['name']]} likes={item['likes']} comments={item['comments']} />
+              <Post name={item['name']} title={item['title']} time={formatTime(item['time'])} profilePic={cur_user.friendsProfilePics[item['name']]} likes={item['likes']} comments={item['comments']} />
             )}
             keyExtractor={(item) => item.id}
             contentContainerStyle={styles.scrollView}

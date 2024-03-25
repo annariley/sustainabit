@@ -97,7 +97,7 @@ const Leaderboard = ({navigation}) => {
             <FlatList
               data={leaderboard}
               renderItem={({ item }) => (
-                <ProfilePreview id={item.id} name={item.name} points={item.points} profilePic={item.profilePic} displayPoints={true} />
+                <ProfilePreview navigation={navigation} id={item.id} name={item.name} points={item.points} profilePic={item.profilePic} displayPoints={true} />
               )}
               keyExtractor={(item) => item.id}
               contentContainerStyle={styles.scrollView}

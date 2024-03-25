@@ -18,7 +18,7 @@ const Profile = ({route, navigation}) => {
   const [profUser, setUser] = useState(null)
 
   useEffect(() => {
-    console.log("Fetching data for profile: ")
+    console.log("Fetching data for profile: " + route.params['profileUserId'])
     setRefreshing(true)
 
     setupUser().then((cur_user) => {
@@ -32,9 +32,11 @@ const Profile = ({route, navigation}) => {
     console.log("Setting up user...")
 
     const username = route.params['profileUserId']
+    console.log(username)
     new_user = new user(username)
+    console.log(new_user)
     await new_user.sync()
-
+    console.log('post await user')
     setUser(new_user)
 
     return new_user
