@@ -12,6 +12,7 @@
     "@expo-google-fonts/nanum-myeongjo": "^0.2.3",
     "@firebase/app": "^0.9.28",
     "@firebase/firestore": "^4.4.3",
+    "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-native-community/datetimepicker": "^7.2.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-picker/picker": "^2.6.1",

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import NavBar from '../Components/NavBar';
 import Header from '../Components/Header';
 import Post from '../Components/Post';
@@ -11,17 +11,19 @@ import AppContext from '../Components/AppContext';
 import { auth, provider } from '../firebase/firebase'
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
 import { getUsernamefromUID, user, createNewUser } from '../firebase/user';
-
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Login = ({navigation}) => {
-  const [name, setName] = useState('');
-  const [birthday, setBirthday] = useState('');
-  const [city, setCity] = useState('');
+  const [first, setFirst] = useState('');
+  const [last, setLast] = useState('');
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [reference, setReference] = useState('');  
   const handleCreateProfile = () => {
     // Handle the profile creation logic
-    console.log('Creating profile with the following details:', { name, birthday, city, reference });
+    console.log('Creating profile with the following details:', { first, last, email, password, reference });
+    create(email, password, first, last, username, 'Vancouver')
     navigation.navigate('Home')
   };
   function login(email, password) {
@@ -72,23 +74,37 @@ const Login = ({navigation}) => {
       </TouchableOpacity>
       <TextInput
         style={styles.input}
-        onChangeText={setName}
-        value={name}
-        placeholder="your name"
+        onChangeText={setFirst}
+        value={first}
+        placeholder="first name"
         placeholderTextColor={'#50692D'}
       />
       <TextInput
         style={styles.input}
-        onChangeText={setBirthday}
-        value={birthday}
-        placeholder="your birthday"
+        onChangeText={setLast}
+        value={last}
+        placeholder="last name"
         placeholderTextColor={'#50692D'}
       />
       <TextInput
         style={styles.input}
-        onChangeText={setCity}
-        value={city}
-        placeholder="your city"
+        onChangeText={setEmail}
+        value={email}
+        placeholder="your email"
+        placeholderTextColor={'#50692D'}
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={setUsername}
+        value={username}
+        placeholder="username"
+        placeholderTextColor={'#50692D'}
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={setPassword}
+        value={password}
+        placeholder="password"
         placeholderTextColor={'#50692D'}
       />
       <TextInput
@@ -153,7 +169,7 @@ const styles = StyleSheet.create({
     marginTop: 20
   },
   buttonText: {
-    color:'F8F1D5',
+    color:'#F8F1D5',
   },
 });
 
