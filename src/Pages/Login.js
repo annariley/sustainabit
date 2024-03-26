@@ -41,6 +41,7 @@ const Login = ({navigation}) => {
           })
       })
       .catch((error) => {
+        console.log(error.message)
         const errorCode = error.code;
         const errorMessage = error.message;
       });
@@ -49,6 +50,7 @@ const Login = ({navigation}) => {
   function create(email, password, firstName, lastName, username, location){
     createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
+        console.log("post then")
         const sign_user = userCredential.user;
         const uid = sign_user['uid']
         createNewUser(uid, firstName, lastName, username, password, email, location, 'tmp').then(() => {
