@@ -37,7 +37,7 @@ const Profile = ({route, navigation}) => {
     })
   }, [route]));
 
-  useEffect(()=>{setButton(<FriendButton callback={addFriend} status={friendStatus}/>)}, [friendStatus])
+  useEffect(()=>{setButton(<FriendButton callback={addFriend} status={friendStatus}/>)}, [friendStatus, profUser])
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -105,7 +105,7 @@ const Profile = ({route, navigation}) => {
     return fullDateTimeString;
   }
 
-  function addFriend() {
+  async function addFriend() {
     console.log("Friend Status: ", friendStatus)
     if (friendStatus == "current") {
       console.log("Cannot add yourself as a friend :(")
@@ -116,6 +116,7 @@ const Profile = ({route, navigation}) => {
     } else if (friendStatus == "pending") {
       console.log("Friend request accepted!")
       curUser.confirmFriend(profUser.username)
+      await curUser.sync()
       setFriendStatus("friends")
       return
     } else if (friendStatus == "requested") {
@@ -124,10 +125,11 @@ const Profile = ({route, navigation}) => {
     } else {
       console.log("Sending friend request!")
       curUser.addFriend(profUser.username)
+      await curUser.sync()
       setFriendStatus("requested")
       return
     }
-  }
+  } [profUser]
 
 
   

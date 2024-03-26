@@ -285,6 +285,9 @@ export class user{
         //const q = query(collection(db, 'users', this.username, 'friends'),
         //                where("status", "==", "friends"),
         //                orderBy("score"));
+        if (this.friends.length == 0) {
+            return []
+        }
         const q = query(collection(db, 'users'),
                         where("username", 'in', this.friends),
                         orderBy("score", 'desc'))
@@ -305,6 +308,10 @@ export class user{
     async getFriendsFeedOld() {
         console.log("Getting all friends' posts for ", this.username)
 
+        if (this.friends.length == 0) {
+            return []
+        }
+
         const q = query(collection(db, 'posts'), 
                         where("author", "in", this.friends), 
                         orderBy("creationTime", "desc"));
@@ -318,6 +325,10 @@ export class user{
 
     async getFriendsFeed() {
         console.log("Getting all friends' posts for ", this.username)
+
+        if (this.friends.length == 0) {
+            return []
+        }
 
         const q = query(collection(db, 'posts'), 
                         where("author", "in", this.friends), 

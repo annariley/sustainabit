@@ -86,7 +86,14 @@ const styles = StyleSheet.create({
         color:'white'
     }, 
     requestedBackground: {
-        backgroundColor: 'yellow'
+        backgroundColor: 'yellow',
+        borderRadius:20,
+        marginBottom:20,
+        width:130,
+        alignItems:'center', 
+        justifyContent:'center',
+        flexDirection:'row',
+        color:'white'
     },
     });
     
