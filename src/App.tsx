@@ -26,7 +26,7 @@ const CUR_USER = "iaincopland"
 const Stack = createStackNavigator();
 
 export default function App() {
-  const [curUser, setCurUser] = useState(new user())
+  const [curUser, setCurUser] = useState(new user(CUR_USER))
 
   useEffect(() => {
     //fetchFonts(); // Load fonts when the app starts

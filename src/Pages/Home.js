@@ -43,7 +43,6 @@ const Home = ({navigation}) => {
     const results = await curUser.getHomeFeed()
     await getProfPics(results)
     setPosts(results)
-    console.log(results[0])
   }
 
   async function getProfPics(results) {

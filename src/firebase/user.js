@@ -6,6 +6,7 @@ import { createNewPost } from './post';
 import { createNewCommuteActivity, createNewCustomActivity, createNewMealActivity } from './activity';
 
 import { downloadImage } from '../firebase/storage';
+import { uploadImage } from '../firebase/storage';
 
 
 
@@ -23,6 +24,7 @@ export async function createNewUser(
 ){
     const docRef = await setDoc(doc(db, "users", username),
     {
+        uid: uid,
         firstName: firstName,
         lastName: lastName,
         username: username,
@@ -36,7 +38,16 @@ export async function createNewUser(
         creationTime: Timestamp.now()
     });
 
+    const img_url = await downloadImage('images/profile_pics/willow.png') 
+    
+    const response = await fetch(img_url)
+    const fileData = await response.blob();
+
+    await uploadImage(fileData, `/images/profile_pics/${username}.png`)
+    
     console.log("User Document created with username: ", username)
+
+    return
     
 }
 

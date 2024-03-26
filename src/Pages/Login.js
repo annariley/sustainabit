@@ -9,8 +9,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useContext } from 'react';
 import AppContext from '../Components/AppContext';
 import { auth, provider } from '../firebase/firebase'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { getUsernamefromUID, user } from '../firebase/user';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
+import { getUsernamefromUID, user, createNewUser } from '../firebase/user';
 
 
 const Login = ({navigation}) => {
@@ -19,24 +19,55 @@ const Login = ({navigation}) => {
   const [curUser, setCurUser] = currentUser
 
   useEffect(() => {
-    const email = "iainwcop@gmail.com"
+    const email = "purang@gmail.com"
     const password = "password"
+    const firstName = "Purang"
+    const lastName = "Abolmaesumi"
+    const username = "purangabolmaesumi"
+    const location = "Montreal, QC"
+    //create(email, password, firstName, lastName, username, location)
+    login(email, password)
+  }, []);
+
+  function login(email, password) {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const sign_user = userCredential.user;
-        console.log(sign_user['uid'])
-        const new_user = getUsernamefromUID(sign_user['uid'])
+        getUsernamefromUID(sign_user['uid'])
           .then((username) => {
-            console.log(username)
             const new_user = new user(username)
             setCurUser(new_user)
+            navigation.navigate('Home')
           })
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
       });
-  }, []);
+  }
+
+  function create(email, password, firstName, lastName, username, location){
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential) => {
+        console.log("Created Auth for ", userCredential)
+        const sign_user = userCredential.user;
+        const uid = sign_user['uid']
+        console.log(uid)
+        console.log(firstName)
+        createNewUser(uid, firstName, lastName, username, password, email, location, 'tmp').then(() => {
+          console.log("Created new user: ", username)
+          const new_user = new user(username)
+          setCurUser(new_user)
+          navigation.navigate('Home')
+        })
+        
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  }
 
   const onRefresh = () => {
     setRefreshing(true);

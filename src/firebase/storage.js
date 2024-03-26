@@ -1,4 +1,4 @@
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
 
 function tempInit() {
     const firebaseConfig = {
@@ -13,11 +13,12 @@ function tempInit() {
     return db
 }
 
-export function uploadImage(image, uploadPath) {
-    db = tempInit();
+export async function uploadImage(image, uploadPath) {
     const storage = getStorage();
     const uploadRef = ref(storage, uploadPath);
-
+    uploadBytes(uploadRef, image).then((snapshot) => {
+        console.log("Uploaded file")
+    })
 }
 
 export async function downloadImage(storagePath) {
