@@ -11,6 +11,7 @@ import { downloadImage } from '../firebase/storage';
 import { post } from '../firebase/post';
 import AppContext from '../Components/AppContext';
 import { requestMediaLibraryPermissionsAsync } from 'expo-image-picker';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Profile = ({route, navigation}) => {
   const [refreshing, setRefreshing] = useState(false); // State to track refreshing status
@@ -86,17 +87,19 @@ const Profile = ({route, navigation}) => {
       <View style={styles.container}>
           <Header navigation={navigation} current={'Personal'} title={"Personal"} />
           <View style={styles.containerHeading}>
-              <Image source={require('../assets/willow.png')} style={styles.profilePhoto} />
-              <Text style={styles.title}>Loading...</Text>
-              <Text style={styles.text}>Loading...</Text>
-              <View style={styles.pointBackground}>
-                <Text style={styles.pointText}>{"Loading..."}</Text>
-              </View>
+            <Image source={require('../assets/willow.png')} style={styles.profilePhoto} />
+            <Text style={styles.title}>Loading...</Text>
+            <Text style={styles.text}>Loading...</Text>
+            <View style={styles.pointBackground}>
+              <Text style={styles.pointText}>{"Loading..."}</Text>
+            </View>
           </View>
           <View style={styles.headingContainer2}>
             <View style={styles.headingContainer3}>
               <Text style={styles.title}>Friends</Text>
               <Text style={styles.text}>{"Loading..."}</Text>
+            </View>
+            <View style={styles.headingContainer3}>
               <Text style={styles.title}>Activities</Text>
               <Text style={styles.text}>{"Loading..."}</Text>
             </View>
@@ -108,6 +111,7 @@ const Profile = ({route, navigation}) => {
             <TouchableOpacity onPress={addFriend}>
               <View style={styles.friendBackground}>
                 <Text style={styles.friendText}>Add Friend</Text>
+                <Icon name="account-plus" size={20} color="#E7ECDF" />
               </View>
             </TouchableOpacity>
           </View>
@@ -133,29 +137,31 @@ const Profile = ({route, navigation}) => {
       <View style={styles.container}>
           <Header navigation={navigation} current={'Personal'} title={"Personal"} />
           <View style={styles.containerHeading}>
-              <Image source={{uri:profUser.profilePic}} style={styles.profilePhoto} />
-              <Text style={styles.title}>{profUser.firstName} {profUser.lastName} ({profUser.username})</Text>
-              <Text style={styles.text}>{profUser.location}</Text>
-              <View style={styles.pointBackground}>
-                <Text style={styles.pointText}>{profUser.score}</Text>
-              </View>
+            <Image source={{uri:profUser.profilePic}} style={styles.profilePhoto} />
+            <Text style={styles.title}>{profUser.firstName} {profUser.lastName} ({profUser.username})</Text>
+            <Text style={styles.text}>{profUser.location}</Text>
+            <View style={styles.pointBackground}>
+              <Text style={styles.pointText}>{profUser.score}</Text>
+            </View>
           </View>
           <View style={styles.headingContainer2}>
             <View style={styles.headingContainer3}>
               <Text style={styles.title}>Friends</Text>
               <Text style={styles.text}>{profUser.friends.length}</Text>
+            </View>
+            <View style={styles.headingContainer3}>
               <Text style={styles.title}>Activity</Text>
               <Text style={styles.text}>{profUser.numPosts}</Text>
             </View>
             <View style={styles.headingContainer3}>
             <Image source={require('../assets/carbonreduced.png')} style={styles.profilePhoto} />
             </View>
-            
           </View>
           <View style={{alignItems:'center', justifyContent:'center'}}>
             <TouchableOpacity onPress={addFriend}>
               <View style={styles.friendBackground}>
                 <Text style={styles.friendText}>Add Friend</Text>
+                <Icon name="account-plus" size={20} color="#E7ECDF" />
               </View>
             </TouchableOpacity>
           </View>
@@ -192,18 +198,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   profilePhoto: {
-    width: 100,
-    height: 100,
+    width: 75,
+    height: 75,
     borderRadius: 50,
   },
   title: {
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: 'bold',
     color: '#415A50',
-    marginVertical:10
+    marginTop:5
   },
   pointText: {
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: 'bold',
     color: '#415A50',
     padding: 10
@@ -211,7 +217,7 @@ const styles = StyleSheet.create({
   pointBackground: {
     backgroundColor: '#E7ECDF',
     borderRadius:20,
-    marginVertical:10
+    marginTop:10
   },
   friendText: {
     fontSize: 15,
@@ -222,18 +228,17 @@ const styles = StyleSheet.create({
   friendBackground: {
     backgroundColor: '#415A50',
     borderRadius:20,
-    marginVertical:10,
-    width:200,
+    marginBottom:20,
+    width:168,
     alignItems:'center', 
     justifyContent:'center',
     flexDirection:'row'
   },
   text: {
-    fontSize: 14,
+    fontSize: 15,
     color: '#415A50',
   },
   headingContainer2:{
-    flex:1,
     flexDirection:'row'
   },
   headingContainer3:{
@@ -243,7 +248,7 @@ const styles = StyleSheet.create({
     justifyContent:'center'
   },
   flatListContainer:{
-    height:200,
+    height:320,
   },
   logo: {
     width: 100,
@@ -267,6 +272,7 @@ const styles = StyleSheet.create({
     width:'100%',
     borderColor: '#415A50',
     alignItems:'center',
+    height:32
   }
 });
 
