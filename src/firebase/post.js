@@ -1,6 +1,5 @@
 import { db } from "./firebase";
 import { setDoc, addDoc, collection, doc, Timestamp, getDoc } from 'firebase/firestore'
-import { user } from "./user";
 
 export async function createNewPost(
     author,

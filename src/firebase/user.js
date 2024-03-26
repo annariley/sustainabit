@@ -3,7 +3,6 @@ import { getDoc, setDoc, addDoc, collection, doc, Timestamp, getDocs, query, whe
 import { db } from './firebase';
 
 import { createNewCommuteActivity, createNewCustomActivity, createNewMealActivity } from './activity';
-import { createNewPost, post } from './post';
 
 import { downloadImage } from '../firebase/storage';
 
@@ -39,6 +38,7 @@ export async function createNewUser(
     
 }
 
+
 export async function searchUsers(queryString) {
     q = query(collection(db, 'users'),
             where("username", ">=", queryString),
@@ -47,8 +47,14 @@ export async function searchUsers(queryString) {
 
     const results = [];
     qSnapshot.forEach((doc) => {
-        results.push(doc.data())
+        results.push({
+            id: doc.id,
+            username: doc.data()['username'],
+            score: doc.data()['score']
+        })
     })
+
+    console.log(results)
 
     return results
 }
@@ -297,7 +303,7 @@ export class user{
         return feedData;
     }
 
-    async getPersonalFeed() {
+    async getPersonalFeedOld() {
         console.log("Getting personal feed for ", this.username)
 
         const q = query(collection(db, 'posts'), 
@@ -307,6 +313,27 @@ export class user{
         const feedData = []
         qSnapshot.forEach( (doc) => {
             feedData.push(doc.id)
+        })
+        return feedData;
+    }
+
+    async getPersonalFeed() {
+        console.log("Getting personal feed for ", this.username)
+
+        const q = query(collection(db, 'posts'), 
+                        where("author", "==", this.username), 
+                        orderBy("creationTime", "desc"));
+        const qSnapshot = await getDocs(q)
+        const feedData = []
+        qSnapshot.forEach( (doc) => {
+            feedData.push({
+                id: doc.id,
+                name: doc.data()['author'],
+                title: doc.data()['title'],
+                likes: 0,
+                comments: 0,
+                time: doc.data()['creationTime']
+            })
         })
         return feedData;
     }
