@@ -9,6 +9,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { user, createNewUser } from '../firebase/user';
 import { downloadImage } from '../firebase/storage';
 import { post } from '../firebase/post';
+import { useContext } from 'react';
 import AppContext from '../Components/AppContext';
 import { requestMediaLibraryPermissionsAsync } from 'expo-image-picker';
 
@@ -16,6 +17,7 @@ const Profile = ({route, navigation}) => {
   const [refreshing, setRefreshing] = useState(false); // State to track refreshing status
   const [posts, setPosts] = useState([])
   const [profUser, setUser] = useState(null)
+  const curUser = useContext(AppContext)
 
   useEffect(() => {
     console.log("Fetching data for profile: " + route.params['profileUserId'])
@@ -78,7 +80,18 @@ const Profile = ({route, navigation}) => {
   }
 
   function addFriend() {
-
+    console.log("Current User: ", curUser.username)
+    console.log("Profile User: ", profUser.username)
+    if (curUser.username != profUser.username) {
+      if (!(curUser.friends.includes(profUser.username))) {
+        console.log("Adding user as friend")
+        curUser.addFriend(profUser.username)
+      } else {
+        console.log("User is already a friend")
+      }
+    } else {
+      console.log("Cannot add yourself as a friend :(")
+    }
   }
   
   if (profUser == null){
