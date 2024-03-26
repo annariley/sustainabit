@@ -133,7 +133,7 @@ const Profile = ({route, navigation}) => {
             <FlatList
               data={posts}
               renderItem={({ item }) => (
-                <Post name={"Loading"} title={"Loading"} time={"Loading"} profilePic={"Loading"} likes={"Loading"} comments={"Loading"} />
+                <Post name={"Loading"} title={"Loading"} time={"Loading"} profilePic={require('../assets/willow.png')} likes={"Loading"} comments={"Loading"} />
               )}
               contentContainerStyle={styles.scrollView}
               refreshing={refreshing}
@@ -181,7 +181,7 @@ const Profile = ({route, navigation}) => {
             <FlatList
               data={posts}
               renderItem={({ item }) => (
-                <Post name={item['name']} title={item['title']}  time={formatTime(item['time'])} profilePic={profUser.profilePic} likes={item['likes']} comments={item['comments']} />
+                <Post name={item['name']} title={item['title']}  time={formatTime(item['time'])} profilePic={{uri:profUser.profilePic}} likes={item['likes']} comments={item['comments']} />
               )}
               keyExtractor={(item) => item.id}
               contentContainerStyle={styles.scrollView}

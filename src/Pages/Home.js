@@ -76,7 +76,7 @@ const Home = ({navigation}) => {
           <FlatList
             data={posts}
             renderItem={({ item }) => (
-              <Post name={item['name']} title={item['title']} time={formatTime(item['time'])} profilePic={profPics[item['name']]} likes={item['likes']} comments={item['comments']} />
+              <Post name={item['name']} title={item['title']} time={formatTime(item['time'])} profilePic={{uri:profPics[item['name']]}} likes={item['likes']} comments={item['comments']} />
             )}
             keyExtractor={(item) => item.id}
             contentContainerStyle={styles.scrollView}

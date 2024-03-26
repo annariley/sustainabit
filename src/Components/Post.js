@@ -6,7 +6,7 @@ function Post({ name, title, time, profilePic, likes, comments }) {
   return (
     <View style={styles.postContainer}>
       <View style={styles.headerContainer}>
-        <Image source={{uri:profilePic}} style={styles.profileIcon} />
+        <Image source={profilePic} style={styles.profileIcon} />
         <View style={{flex:1, flexDirection:'column'}}>
           <Text style={styles.postText}>{time}</Text>
           <Text style={styles.postTitle}>{name}</Text>
