@@ -7,6 +7,8 @@ import colours from '../assets/constants/colours';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
+import { getUsernamefromUID, user, createNewUser } from '../firebase/user';
 
 const Login = ({navigation}) => {
   const [name, setName] = useState('');
@@ -16,8 +18,47 @@ const Login = ({navigation}) => {
   const handleCreateProfile = () => {
     // Handle the profile creation logic
     console.log('Creating profile with the following details:', { name, birthday, city, reference });
-    // Add your logic to create the profile here...
+    navigation.navigate('Home')
   };
+  function login(email, password) {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const sign_user = userCredential.user;
+        getUsernamefromUID(sign_user['uid'])
+          .then((username) => {
+            const new_user = new user(username)
+            setCurUser(new_user)
+            navigation.navigate('Home')
+          })
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+  }
+
+  function create(email, password, firstName, lastName, username, location){
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential) => {
+        console.log("Created Auth for ", userCredential)
+        const sign_user = userCredential.user;
+        const uid = sign_user['uid']
+        console.log(uid)
+        console.log(firstName)
+        createNewUser(uid, firstName, lastName, username, password, email, location, 'tmp').then(() => {
+          console.log("Created new user: ", username)
+          const new_user = new user(username)
+          setCurUser(new_user)
+          navigation.navigate('Home')
+        })
+
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  }
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.photoButton}>
