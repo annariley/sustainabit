@@ -34,7 +34,7 @@ export default function App() {
   }, []);
 
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // State to track login status
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
   return (
     <AppContext.Provider value = {cur_user}>
       <NavigationContainer>

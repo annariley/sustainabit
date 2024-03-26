@@ -1,41 +1,64 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import NavBar from '../Components/NavBar';
 import Header from '../Components/Header';
 import Post from '../Components/Post';
 import colours from '../assets/constants/colours';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Login = ({navigation}) => {
-  const [refreshing, setRefreshing] = useState(false); // State to track refreshing status
-
-
-  const onRefresh = () => {
-    setRefreshing(true);
-    // Simulate loading data for 2 seconds
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
+  const [name, setName] = useState('');
+  const [birthday, setBirthday] = useState('');
+  const [city, setCity] = useState('');
+  const [reference, setReference] = useState('');  
+  const handleCreateProfile = () => {
+    // Handle the profile creation logic
+    console.log('Creating profile with the following details:', { name, birthday, city, reference });
+    // Add your logic to create the profile here...
   };
-    // Dummy data for posts
-    const posts = [
-      { id: '1' },
-    ];
   return (
     <View style={styles.container}>
-        <View style={styles.container}>
-          <Header navigation={navigation} current={'Login'} title={"Login"} />
-          <FlatList
-            data={posts}
-            renderItem={()=> {<Text>Login Page</Text>}}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={styles.scrollView}
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-          <NavBar navigation={navigation} current={'Login'}/>
-        </View>
+      <TouchableOpacity style={styles.photoButton}>
+        <Icon name="photo-library" size={26} color="#50692D" style={{marginBottom:5}}/>
+        <Text style={styles.text} >Add Profile</Text>
+        <Text style={styles.text} >Photo</Text>
+      </TouchableOpacity>
+      <TextInput
+        style={styles.input}
+        onChangeText={setName}
+        value={name}
+        placeholder="your name"
+        placeholderTextColor={'#50692D'}
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={setBirthday}
+        value={birthday}
+        placeholder="your birthday"
+        placeholderTextColor={'#50692D'}
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={setCity}
+        value={city}
+        placeholder="your city"
+        placeholderTextColor={'#50692D'}
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={setReference}
+        value={reference}
+        placeholder="how did you hear about us?"
+        placeholderTextColor={'#50692D'}
+      />
+      <TouchableOpacity
+        onPress={handleCreateProfile}
+        style={styles.createProfileButton}
+      >
+        <Text style={styles.buttonText}>create profile</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -45,50 +68,47 @@ const Login = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#415A50',
+    backgroundColor: '#C8A160',
+    alignItems:'center',
+    justifyContent: 'center'
   },
-  containerHome: {
-    flex: 1,
-    backgroundColor: '#415A50',
-    padding: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logo: {
+  photoButton: {
     width: 100,
     height: 100,
+    borderRadius: 50,
     marginBottom: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent:'space-around',
+    backgroundColor:'#F8F1D5'
   },
-  title: {
-    fontSize: 30,
-    //fontFamily: 'NanumMyeongjo-Regular',
-    fontWeight: 'bold',
-    color: '#F8F1D5',
-    marginBottom: 20,
+  profilePhoto: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#fff', // Replace with a color that matches the "Add Profile Photo" circle
   },
-  text: {
-    fontSize: 18,
-    //fontFamily: 'NanumMyeongjo-Regular',
-    color: '#F8F1D5',
-    marginBottom: 20,
+  input: {
+    height: 40,
+    margin: 12,
+    borderRadius:8,
+    padding: 10,
+    width: '80%',
+    color:'#50692D',
+    backgroundColor: '#F8F1D5', // Input field background color
   },
-  loginButton: {
-    backgroundColor: '#C8A160',
-    padding: 15,
-    borderRadius: 10,
-    marginTop: 20,
+  text:{
+    color:'#50692D',
+    fontSize:12
+  },
+  createProfileButton: {
+    backgroundColor: '#50692D', // Match this with your button's background color
+    padding: 10,
+    borderRadius: 20,
+    marginTop: 20
   },
   buttonText: {
-    color: '#F8F1D5',
-    //fontFamily: 'NanumMyeongjo-Regular',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    fontSize: 16,
-  },
-  scrollView: {
-    flexGrow: 1,
-    paddingHorizontal: 10,
-    paddingTop: 1,
+    color:'F8F1D5',
   },
 });
 
