@@ -30,7 +30,6 @@ const Leaderboard = ({navigation}) => {
 
   async function getMyLeaderboard() {
     const friendScores = await cur_user.getFriendLeaderboard()
-    console.log(friendScores)
     let leaderboard = []
     for (let i = 0; i < friendScores.length; i++) {
       leaderboard.push({
@@ -54,8 +53,6 @@ const Leaderboard = ({navigation}) => {
       if (keyB < keyA) return -1;
       return 0;
     })
-    console.log("Got leaderboard data: ")
-    console.log(leaderboard)
     setLeaderboard(leaderboard)
   }
 
