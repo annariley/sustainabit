@@ -12,7 +12,7 @@ import { downloadImage } from '../firebase/storage';
 const Search = ({ route, navigation }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [users, setUsers] = useState([]);
-  const [profPicMap, setProfPicMap] = useState({})
+  const [profPics, setProfPics] = useState({})
 
   useEffect(() => {
     if (searchTerm) {
@@ -32,12 +32,14 @@ const Search = ({ route, navigation }) => {
   }
   
   async function getProfPics(results) {
-    profilePics = {}
+    let profilePics = {}
     for (let i = 0; i < results.length; i++) {
-      profilePics[results[i]['username']] = await downloadImage(`/images/profile_pics/${results[i]['username']}.png`)
+      if (!(results[i]['username'] in profilePics)) {
+        profilePics[results[i]['username']] = await downloadImage(`/images/profile_pics/${results[i]['username']}.png`)
+      }
     }
 
-    setProfPicMap(profilePics)
+    setProfPics(profilePics)
   }
 
   return (
@@ -61,7 +63,7 @@ const Search = ({ route, navigation }) => {
             id={item["username"]}
             name={item["username"]}
             points={item["score"]}
-            profilePic={profPicMap[item["username"]]}
+            profilePic={profPics[item["username"]]}
             displayPoints={false}
           />
         )}

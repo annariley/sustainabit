@@ -1,6 +1,7 @@
 
 import { getDoc, setDoc, addDoc, collection, doc, Timestamp, getDocs, query, where, orderBy, limit } from 'firebase/firestore'
 import { db } from './firebase';
+import { createNewPost } from './post';
 
 import { createNewCommuteActivity, createNewCustomActivity, createNewMealActivity } from './activity';
 
@@ -93,7 +94,7 @@ export class user{
         this.profilePic = await downloadImage(`/images/profile_pics/${this.username}.png`)
 
         this.friends = await this.getFriends();
-        this.friendsProfilePics = await this.getFriendsProfilePics();
+        //this.friendsProfilePics = await this.getFriendsProfilePics();
         this.numPosts = await this.getNumPosts();
     }
 
