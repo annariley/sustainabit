@@ -33,14 +33,14 @@ const Leaderboard = ({navigation}) => {
     let leaderboard = []
     for (let i = 0; i < friendScores.length; i++) {
       leaderboard.push({
-        id: i,
+        id: friendScores[i][0],
         name: friendScores[i][0],
         points: friendScores[i][1],
         profilePic: await downloadImage(`/images/profile_pics/${friendScores[i][0]}.png`)
       })
     }
     leaderboard.push({
-      id: friendScores.length,
+      id: cur_user.username,
       name: cur_user.username,
       points: cur_user.score,
       profilePic: cur_user.profilePic
