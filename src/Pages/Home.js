@@ -39,7 +39,7 @@ const Home = ({navigation}) => {
 
   async function getRecentFeed() {
     await cur_user.sync()
-    const results = await cur_user.getFriendsFeed()
+    const results = await cur_user.getHomeFeed()
     await getProfPics(results)
     setPosts(results)
   }
