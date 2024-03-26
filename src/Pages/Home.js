@@ -17,7 +17,8 @@ const Home = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false); // State to track refreshing status
   const [posts, setPosts] = useState([])
   const [profPics, setProfPics] = useState({})
-  const cur_user = useContext(AppContext)
+  const { currentUser } = useContext(AppContext)
+  const [curUser, _] = currentUser
 
   useEffect(() => {
     setRefreshing(true)
@@ -38,8 +39,8 @@ const Home = ({navigation}) => {
   };
 
   async function getRecentFeed() {
-    await cur_user.sync()
-    const results = await cur_user.getHomeFeed()
+    await curUser.sync()
+    const results = await curUser.getHomeFeed()
     await getProfPics(results)
     setPosts(results)
     console.log(results[0])

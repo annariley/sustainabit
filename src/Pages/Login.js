@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import NavBar from '../Components/NavBar';
 import Header from '../Components/Header';
@@ -6,10 +6,37 @@ import Post from '../Components/Post';
 import colours from '../assets/constants/colours';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useContext } from 'react';
+import AppContext from '../Components/AppContext';
+import { auth, provider } from '../firebase/firebase'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { getUsernamefromUID, user } from '../firebase/user';
+
 
 const Login = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false); // State to track refreshing status
+  const { currentUser } = useContext(AppContext)
+  const [curUser, setCurUser] = currentUser
 
+  useEffect(() => {
+    const email = "iainwcop@gmail.com"
+    const password = "password"
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const sign_user = userCredential.user;
+        console.log(sign_user['uid'])
+        const new_user = getUsernamefromUID(sign_user['uid'])
+          .then((username) => {
+            console.log(username)
+            const new_user = new user(username)
+            setCurUser(new_user)
+          })
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+  }, []);
 
   const onRefresh = () => {
     setRefreshing(true);

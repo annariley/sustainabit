@@ -15,13 +15,14 @@ import { downloadImage } from '../firebase/storage';
 const Leaderboard = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false); // State to track refreshing status
   const [leaderboard, setLeaderboard] = useState(null);
-  const cur_user = useContext(AppContext)
+  const { currentUser } = useContext(AppContext)
+  const [curUser, _] = currentUser
 
   useEffect(() => {
     console.log("Fetching data for leaderboard: ")
     setRefreshing(true)
 
-    cur_user.sync().then(() => {
+    curUser.sync().then(() => {
       getMyLeaderboard().then(() =>{
         setRefreshing(false)
       })
@@ -29,7 +30,7 @@ const Leaderboard = ({navigation}) => {
   }, []);
 
   async function getMyLeaderboard() {
-    const friendScores = await cur_user.getFriendLeaderboard()
+    const friendScores = await curUser.getFriendLeaderboard()
     let leaderboard = []
     for (let i = 0; i < friendScores.length; i++) {
       leaderboard.push({
@@ -40,10 +41,10 @@ const Leaderboard = ({navigation}) => {
       })
     }
     leaderboard.push({
-      id: cur_user.username,
-      name: cur_user.username,
-      points: cur_user.score,
-      profilePic: cur_user.profilePic
+      id: curUser.username,
+      name: curUser.username,
+      points: curUser.score,
+      profilePic: curUser.profilePic
     })
 
     leaderboard.sort(function(a,b) {
@@ -58,7 +59,7 @@ const Leaderboard = ({navigation}) => {
 
   const onRefresh = () => {
     setRefreshing(true);
-    cur_user.sync().then(() => {
+    curUser.sync().then(() => {
       getMyLeaderboard().then(() =>{
         setRefreshing(false)
       })
@@ -81,7 +82,7 @@ const Leaderboard = ({navigation}) => {
               <Text style={{fontSize: 15, fontWeight: 'bold', color: '#415A50'}}>Your score this month</Text>
             </View>
             <View style={styles.pointBackground}>
-              <Text style={styles.pointText}>{cur_user.score}</Text>
+              <Text style={styles.pointText}>{curUser.score}</Text>
             </View>
           </View>
           <View style={{height:35, marginVertical:5}}>

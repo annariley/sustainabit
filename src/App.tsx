@@ -26,17 +26,16 @@ const CUR_USER = "iaincopland"
 const Stack = createStackNavigator();
 
 export default function App() {
-  const cur_user = new user(CUR_USER)
+  const [curUser, setCurUser] = useState(new user())
 
   useEffect(() => {
-    cur_user.sync()
     //fetchFonts(); // Load fonts when the app starts
   }, []);
 
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // State to track login status
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
   return (
-    <AppContext.Provider value = {cur_user}>
+    <AppContext.Provider value = {{currentUser : [curUser, setCurUser]}}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName={isLoggedIn ? "Home" : "Login"}>
           <Stack.Screen name="Login" component={Login}  options={{ headerShown: false }}  />
