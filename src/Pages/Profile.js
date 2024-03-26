@@ -28,15 +28,23 @@ const Profile = ({route, navigation}) => {
     })
   }, []);
 
+  const onRefresh = () => {
+    setRefreshing(true);
+    getUserFeed(profUser).then(() => {
+      setRefreshing(false)
+    })
+    // Simulate loading data for 2 seconds
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
+
   async function setupUser(){
     console.log("Setting up user...")
 
     const username = route.params['profileUserId']
-    console.log(username)
     new_user = new user(username)
-    console.log(new_user)
     await new_user.sync()
-    console.log('post await user')
     setUser(new_user)
 
     return new_user
@@ -48,31 +56,12 @@ const Profile = ({route, navigation}) => {
 
     await cur_user.sync()
     
-    const postIDs = await cur_user.getPersonalFeed()
-    let formattedPosts = []
-
-    console.log("Got posts for user, setting up...")
-    postIDs.forEach( async (next_post_id) => {
-      let next_post = new post(next_post_id)
-      await next_post.sync()
-      let author = new user(next_post.author)
-      await author.sync()
-      formattedPosts.push([next_post, author])
-    })
+    const load_posts = await cur_user.getPersonalFeed()
   
-    setPosts(formattedPosts)
+    setPosts(load_posts)
   }
 
-  const onRefresh = () => {
-    setRefreshing(true);
-    getUserFeed(profUser).then(() => {
-      setRefreshing(false)
-    })
-    // Simulate loading data for 2 seconds
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  };
+  
   function formatTime(timestamp) {
     const { seconds, nanoseconds } = timestamp;
     // Create a Date object using the seconds (multiplied by 1000 to convert to milliseconds)
@@ -177,7 +166,7 @@ const Profile = ({route, navigation}) => {
             <FlatList
               data={posts}
               renderItem={({ item }) => (
-                <Post name={item[1].username} title={item[0].title}  time={formatTime(item[0].timeCompleted)} profilePic={item[1].profilePic} likes={item[0].likes} comments={item[0].comments} />
+                <Post name={item['name']} title={item['title']}  time={formatTime(item['time'])} profilePic={profUser.profilePic} likes={item['likes']} comments={item['comments']} />
               )}
               keyExtractor={(item) => item.id}
               contentContainerStyle={styles.scrollView}

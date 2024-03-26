@@ -34,7 +34,7 @@ const Track = ({ navigation }) => {
 
   async function trackActivity() {
     await cur_user.sync()
-    cur_user.trackActivity(selectedActivity, visibility, commuteType, commuteData="tmp", description=customText, timeCompleted=timeCompleted)
+    cur_user.trackActivity(selectedActivity, visibility, commuteType, "tmp", customText, timeCompleted)
     navigation.navigate('Home')
   }
 

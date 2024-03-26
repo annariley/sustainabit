@@ -16,6 +16,7 @@ import { post } from '../firebase/post';
 const Home = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false); // State to track refreshing status
   const [posts, setPosts] = useState([])
+  const [profPics, setProfPics] = useState({})
   const cur_user = useContext(AppContext)
 
   useEffect(() => {
@@ -38,9 +39,22 @@ const Home = ({navigation}) => {
 
   async function getRecentFeed() {
     await cur_user.sync()
-    const load_posts = await cur_user.getFriendsFeed()
-    setPosts(load_posts)
+    const results = await cur_user.getFriendsFeed()
+    await getProfPics(results)
+    setPosts(results)
   }
+
+  async function getProfPics(results) {
+    let profilePics = {}
+    for (let i = 0; i < results.length; i++) {
+      if (!(results[i]['name'] in profilePics)) {
+        profilePics[results[i]['name']] = await downloadImage(`/images/profile_pics/${results[i]['name']}.png`)
+      }
+    }
+
+    setProfPics(profilePics)
+  }
+
   function formatTime(timestamp) {
     const { seconds, nanoseconds } = timestamp;
     // Create a Date object using the seconds (multiplied by 1000 to convert to milliseconds)
@@ -62,7 +76,7 @@ const Home = ({navigation}) => {
           <FlatList
             data={posts}
             renderItem={({ item }) => (
-              <Post name={item['name']} title={item['title']} time={formatTime(item['time'])} profilePic={cur_user.friendsProfilePics[item['name']]} likes={item['likes']} comments={item['comments']} />
+              <Post name={item['name']} title={item['title']} time={formatTime(item['time'])} profilePic={profPics[item['name']]} likes={item['likes']} comments={item['comments']} />
             )}
             keyExtractor={(item) => item.id}
             contentContainerStyle={styles.scrollView}

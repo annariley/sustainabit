@@ -12,30 +12,34 @@ import { downloadImage } from '../firebase/storage';
 const Search = ({ route, navigation }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [users, setUsers] = useState([]);
-  const [userData, setUserData] = useState([])
+  const [profPics, setProfPics] = useState({})
 
   useEffect(() => {
     if (searchTerm) {
-      searchUsers(searchTerm.toLowerCase()).then((results) => {
-        setupResults(results)
-      })
+      console.log("Search Term: ", searchTerm)
+      runSearch(searchTerm)
     } else {
       setUsers([]);
     }
     
   }, [searchTerm]);
-  
-  async function setupResults(results){
-    let formattedResults = []
-    results.forEach( async (result) => {
-      formattedResults.push({
-        username: result['username'],
-        score: result['score'],
-        profilePic: await downloadImage(`/images/profile_pics/${result['username']}.png`)
-      })
-    })
 
-    setUsers(formattedResults)
+  async function runSearch(searchTerm) {
+    const results = await searchUsers(searchTerm.toLowerCase())
+    await getProfPics(results)
+
+    setUsers(results)
+  }
+  
+  async function getProfPics(results) {
+    let profilePics = {}
+    for (let i = 0; i < results.length; i++) {
+      if (!(results[i]['username'] in profilePics)) {
+        profilePics[results[i]['username']] = await downloadImage(`/images/profile_pics/${results[i]['username']}.png`)
+      }
+    }
+
+    setProfPics(profilePics)
   }
 
   return (
@@ -56,10 +60,10 @@ const Search = ({ route, navigation }) => {
           <ProfilePreview
             route={route}
             navigation={navigation}
-            id={item.id}
-            name={item.username}
-            points={item.score}
-            profilePic={item.profilePic}
+            id={item["username"]}
+            name={item["username"]}
+            points={item["score"]}
+            profilePic={profPics[item["username"]]}
             displayPoints={false}
           />
         )}
