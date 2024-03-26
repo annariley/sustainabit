@@ -1,10 +1,13 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import colours from '../assets/constants/colours';
+import { getUserIdByUsername } from '../firebase/user';
 
 function Post({ navigation, name, id, title, time, profilePic, likes, comments }) {
   function profilePress(){
-    navigation.navigate('Personal', {profileUserId: id})
+    const userId = getUserIdByUsername(name)
+    console.log(id)
+    navigation.navigate('Personal', {profileUserId: userId})
   }
   return (
     <View style={styles.postContainer}>

@@ -38,6 +38,25 @@ export async function createNewUser(
     console.log("User Document created with username: ", username)
     
 }
+export async function getUserIdByUsername(username) {
+    const usersRef = collection(db, 'users');
+    const q = query(usersRef, where("username", "==", username));
+    const querySnapshot = await getDocs(q);
+
+    let userId = null; // Default to null if user is not found
+    querySnapshot.forEach((doc) => {
+        // Assuming username is unique, there should only be one result
+        userId = doc.id; // Get the document ID, which is the user's ID
+        console.log(`User ID for username '${username}': ${userId}`);
+    });
+
+    if (userId) {
+        return userId;
+    } else {
+        console.log(`No user found with username '${username}'`);
+        return null; // Or handle this case as needed
+    }
+}
 
 
 export async function searchUsers(queryString) {

@@ -9,6 +9,7 @@ import Track from './Pages/Track';
 import ComingSoon from './Pages/ComingSoon';
 import Profile from './Pages/Profile';
 import Search from './Pages/Search';
+import Notifications from './Pages/Notifications';
 import * as Font from 'expo-font';
 import { user } from './firebase/user';
 import AppContext from './Components/AppContext';
@@ -45,6 +46,7 @@ export default function App() {
           <Stack.Screen name="ComingSoon" component={ComingSoon} options={{ headerShown: false }}  />
           <Stack.Screen name="Personal" component={Profile} options={{ headerShown: false }}  />
           <Stack.Screen name="Search" component={Search} options={{ headerShown: false }}  />
+          <Stack.Screen name="Notifications" component={Notifications} options={{ headerShown: false }}  />
         </Stack.Navigator>
       </NavigationContainer>
     </AppContext.Provider>

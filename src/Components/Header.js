@@ -12,6 +12,10 @@ function Header ({ navigation, current, title }) {
       console.log("pressing search button")
       navigation.navigate('Search');
     }
+    function handleNotifications() {
+      console.log("pressing notifications button")
+      navigation.navigate('Notifications');
+    }
     return (
       <SafeAreaView style={styles.header}>
         <View>
@@ -25,7 +29,7 @@ function Header ({ navigation, current, title }) {
         <TouchableOpacity style={styles.headerButton}>
           <Image source={require('../assets/gears.png')} style={styles.headerIcon} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.headerButton}>
+        <TouchableOpacity style={styles.headerButton} onPress={handleNotifications}>
           <Image source={require('../assets/bell.png')} style={styles.headerIcon} />
         </TouchableOpacity>
       </SafeAreaView>

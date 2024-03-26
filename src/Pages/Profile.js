@@ -2,6 +2,7 @@ import React, { useState, useEffect, componentDidMount, useCallback } from 'reac
 import { View, Text, Image, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import NavBar from '../Components/NavBar';
 import Header from '../Components/Header';
+import FriendButton from '../Components/FriendButton';
 import Post from '../Components/Post';
 import colours from '../assets/constants/colours';
 import { NavigationContainer, useIsFocused, useFocusEffect } from '@react-navigation/native';
@@ -19,11 +20,13 @@ const Profile = ({route, navigation}) => {
   const [posts, setPosts] = useState([])
   const [profUser, setUser] = useState(null)
   const [friendStatus, setFriendStatus] = useState(null)
+  const [button, setButton] = useState(null)
   const curUser = useContext(AppContext)
 
   useFocusEffect(
     React.useCallback(() => {
     setUser(null)
+    setButton(<FriendButton callback={addFriend} status={friendStatus}/>)
     console.log("Fetching data for profile: " + route.params['profileUserId'])
     setRefreshing(true)
 
@@ -33,6 +36,8 @@ const Profile = ({route, navigation}) => {
       })
     })
   }, [route]));
+
+  useEffect(()=>{setButton(<FriendButton callback={addFriend} status={friendStatus}/>)}, [friendStatus])
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -124,20 +129,7 @@ const Profile = ({route, navigation}) => {
     }
   }
 
-  function getFriendButtonStyle() {
-    console.log("Friend Status: ", friendStatus)
-    if (friendStatus == "current") {
-      return styles.friendBackground
-    } else if (friendStatus == "friends") {
-      return styles.friendBackground
-    } else if (friendStatus == "pending") {
-      return styles.requestedBackground
-    } else if (friendStatus == "requested") {
-      return styles.requestedBackground
-    } else {
-      return styles.addFriendBackground
-    }
-  }
+
   
   if (profUser == null){
     return (
@@ -164,14 +156,7 @@ const Profile = ({route, navigation}) => {
               <Image source={require('../assets/carbonreduced.png')} style={styles.profilePhoto} />
             </View>
           </View>
-          <View style={{alignItems:'center', justifyContent:'center'}}>
-            <TouchableOpacity onPress={addFriend}>
-              <View style={styles.addFriendBackground}>
-                <Text style={styles.friendText}>Add Friend</Text>
-                <Icon name="account-plus" size={20} color="#E7ECDF" />
-              </View>
-            </TouchableOpacity>
-          </View>
+          <>{button}</>
           <View style={styles.flatListContainer}>
             <View style={styles.activityHeaderContainer}>
               <Text style={styles.title}>Recent Activities</Text>
@@ -214,14 +199,7 @@ const Profile = ({route, navigation}) => {
             <Image source={require('../assets/carbonreduced.png')} style={styles.profilePhoto} />
             </View>
           </View>
-          <View style={{alignItems:'center', justifyContent:'center'}}>
-            <TouchableOpacity onPress={addFriend}>
-              <View style={getFriendButtonStyle()}>
-                <Text style={styles.friendText}>Add Friend</Text>
-                <Icon name="account-plus" size={20} color="#E7ECDF" />
-              </View>
-            </TouchableOpacity>
-          </View>
+          <>{button}</>
           <View style={styles.flatListContainer}>
             <View style={styles.activityHeaderContainer}>
               <Text style={styles.title}>Recent Activities</Text>
