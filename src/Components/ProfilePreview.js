@@ -1,14 +1,18 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import colours from '../assets/constants/colours';
+import { useContext } from 'react';
+import AppContext from '../Components/AppContext';
 
 function ProfilePreview({ route, navigation, id, name, points, profilePic, displayPoints }) {
+  const curUser = useContext(AppContext)
+
   const handlePress = () => {
     navigation.navigate('Personal', {profileUserId: id})
   };
 
   return (
-    <View style={styles.postContainer}>
+    <View style={[styles.postContainer, curUser.username != name ? styles.postContainer : styles.postContainerCurUser]}>
       <TouchableOpacity onPress={handlePress} style={styles.headerContainer}>
           <Image source={{ uri: profilePic }} style={styles.profileIcon} />
           <Text style={styles.postTitle}>{name}</Text>
@@ -35,6 +39,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginLeft: '-2.5%',
     height: 60,
+  },
+  postContainerCurUser: {
+    backgroundColor: '#bad1c8'
   },
   headerContainer: {
     flexDirection: 'row',
