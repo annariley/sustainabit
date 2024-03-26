@@ -304,6 +304,31 @@ export class user{
         return feedData;
     }
 
+    async getHomeFeed() {
+        console.log("Getting Home Feed for ", this.username)
+
+        feedUsers = this.friends
+        feedUsers.push(this.username)
+
+        const q = query(collection(db, 'posts'), 
+                        where("author", "in", feedUsers), 
+                        orderBy("creationTime", "desc"));
+
+        const qSnapshot = await getDocs(q)
+        const feedData = []
+        qSnapshot.forEach( (doc) => {
+            feedData.push({
+                id: doc.id,
+                name: doc.data()['author'],
+                title: doc.data()['title'],
+                likes: 0,
+                comments: 0,
+                time: doc.data()['creationTime']
+            })
+        })
+        return feedData;
+    }
+
     async getPersonalFeedOld() {
         console.log("Getting personal feed for ", this.username)
 
