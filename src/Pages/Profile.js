@@ -19,7 +19,9 @@ const Profile = ({route, navigation}) => {
   const [profUser, setUser] = useState(null)
   const curUser = useContext(AppContext)
 
-  useEffect(() => {
+  useFocusEffect(
+    React.useCallback(() => {
+    setUser(null)
     console.log("Fetching data for profile: " + route.params['profileUserId'])
     setRefreshing(true)
 
@@ -28,7 +30,7 @@ const Profile = ({route, navigation}) => {
         setRefreshing(false)
       })
     })
-  }, []);
+  }, [route]));
 
   const onRefresh = () => {
     setRefreshing(true);
