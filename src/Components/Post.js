@@ -2,11 +2,16 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import colours from '../assets/constants/colours';
 
-function Post({ name, title, time, profilePic, likes, comments }) {
+function Post({ navigation, name, id, title, time, profilePic, likes, comments }) {
+  function profilePress(){
+    navigation.navigate('Personal', {profileUserId: id})
+  }
   return (
     <View style={styles.postContainer}>
       <View style={styles.headerContainer}>
-        <Image source={{uri:profilePic}} style={styles.profileIcon} />
+        <TouchableOpacity onPress={profilePress}>
+          <Image source={{uri:profilePic}} style={styles.profileIcon} />
+        </TouchableOpacity>
         <View style={{flex:1, flexDirection:'column'}}>
           <Text style={styles.postText}>{time}</Text>
           <Text style={styles.postTitle}>{name}</Text>

@@ -135,7 +135,7 @@ const Profile = ({route, navigation}) => {
             <FlatList
               data={posts}
               renderItem={({ item }) => (
-                <Post name={"Loading"} title={"Loading"} time={"Loading"} profilePic={"Loading"} likes={"Loading"} comments={"Loading"} />
+                <Post navigation={navigation} name={"Loading"} id={null} title={"Loading"} time={"Loading"} profilePic={"Loading"} likes={"Loading"} comments={"Loading"} />
               )}
               contentContainerStyle={styles.scrollView}
               refreshing={refreshing}
@@ -185,7 +185,7 @@ const Profile = ({route, navigation}) => {
             <FlatList
               data={posts}
               renderItem={({ item }) => (
-                <Post name={item['name']} title={item['title']}  time={formatTime(item['time'])} profilePic={profUser.profilePic} likes={item['likes']} comments={item['comments']} />
+                <Post navigation={navigation} name={item['name']} id= {item['id']} title={item['title']}  time={formatTime(item['time'])} profilePic={profUser.profilePic} likes={item['likes']} comments={item['comments']} />
               )}
               keyExtractor={(item) => item.id}
               contentContainerStyle={styles.scrollView}
