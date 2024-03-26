@@ -10,7 +10,7 @@ function Post({ navigation, name, id, title, time, profilePic, likes, comments }
     <View style={styles.postContainer}>
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={profilePress}>
-          <Image source={{uri:profilePic}} style={styles.profileIcon} />
+          <Image source={profilePic} style={styles.profileIcon} />
         </TouchableOpacity>
         <View style={{flex:1, flexDirection:'column'}}>
           <Text style={styles.postText}>{time}</Text>

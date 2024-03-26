@@ -94,7 +94,6 @@ export class user{
         this.profilePic = await downloadImage(`/images/profile_pics/${this.username}.png`)
 
         this.friends = await this.getFriends();
-        //this.friendsProfilePics = await this.getFriendsProfilePics();
         this.numPosts = await this.getNumPosts();
     }
 
@@ -218,15 +217,31 @@ export class user{
         return profPics
     }
 
-    async getFriendRequests() {
-        console.log("Getting pending friend requests for ", this.username)
+    async getIncomingRequests() {
+        console.log("Getting incoming pending friend requests for ", this.username)
         const q = query(collection(db, 'users', this.username, 'friends'),
                         where("status", "==", "pending"));
 
         const qSnapshot = await getDocs(q)
         const friendRequests = []
         qSnapshot.forEach((doc) => {
-            friendRequests.push(doc.data())
+            friendRequests.push(doc.id)
+        })
+
+        console.log("Success!")
+
+        return friendRequests
+    }
+
+    async getOutgoingRequests() {
+        console.log("Getting outgoing pending friend requests for ", this.username)
+        const q = query(collection(db, 'users', this.username, 'friends'),
+                        where("status", "==", "requested"));
+
+        const qSnapshot = await getDocs(q)
+        const friendRequests = []
+        qSnapshot.forEach((doc) => {
+            friendRequests.push(doc.id)
         })
 
         console.log("Success!")

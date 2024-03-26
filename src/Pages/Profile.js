@@ -18,9 +18,12 @@ const Profile = ({route, navigation}) => {
   const [refreshing, setRefreshing] = useState(false); // State to track refreshing status
   const [posts, setPosts] = useState([])
   const [profUser, setUser] = useState(null)
+  const [friendStatus, setFriendStatus] = useState(null)
   const curUser = useContext(AppContext)
 
-  useEffect(() => {
+  useFocusEffect(
+    React.useCallback(() => {
+    setUser(null)
     console.log("Fetching data for profile: " + route.params['profileUserId'])
     setRefreshing(true)
 
@@ -29,7 +32,7 @@ const Profile = ({route, navigation}) => {
         setRefreshing(false)
       })
     })
-  }, []);
+  }, [route]));
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -48,6 +51,23 @@ const Profile = ({route, navigation}) => {
     const username = route.params['profileUserId']
     new_user = new user(username)
     await new_user.sync()
+    
+    const incomingRequests = await curUser.getIncomingRequests();
+    const outgoingRequests = await curUser.getOutgoingRequests();
+    console.log("Incoming Requests: ", incomingRequests)
+    console.log("Outgoing Requests: ", outgoingRequests)
+    if (username == curUser.username){
+      setFriendStatus('current')
+    } else if (curUser.friends.includes(username)){
+      setFriendStatus('friends')
+    } else if (incomingRequests.includes(username)){
+      setFriendStatus('pending')
+    } else if (outgoingRequests.includes(username)){
+      setFriendStatus('requested')
+    } else {
+      setFriendStatus(null)
+    }
+
     setUser(new_user)
 
     return new_user
@@ -81,17 +101,41 @@ const Profile = ({route, navigation}) => {
   }
 
   function addFriend() {
-    console.log("Current User: ", curUser.username)
-    console.log("Profile User: ", profUser.username)
-    if (curUser.username != profUser.username) {
-      if (!(curUser.friends.includes(profUser.username))) {
-        console.log("Adding user as friend")
-        curUser.addFriend(profUser.username)
-      } else {
-        console.log("User is already a friend")
-      }
-    } else {
+    console.log("Friend Status: ", friendStatus)
+    if (friendStatus == "current") {
       console.log("Cannot add yourself as a friend :(")
+      return
+    } else if (friendStatus == "friends") {
+      console.log("User is already a friend")
+      return
+    } else if (friendStatus == "pending") {
+      console.log("Friend request accepted!")
+      curUser.confirmFriend(profUser.username)
+      setFriendStatus("friends")
+      return
+    } else if (friendStatus == "requested") {
+      console.log("Friend already requested")
+      return
+    } else {
+      console.log("Sending friend request!")
+      curUser.addFriend(profUser.username)
+      setFriendStatus("requested")
+      return
+    }
+  }
+
+  function getFriendButtonStyle() {
+    console.log("Friend Status: ", friendStatus)
+    if (friendStatus == "current") {
+      return styles.friendBackground
+    } else if (friendStatus == "friends") {
+      return styles.friendBackground
+    } else if (friendStatus == "pending") {
+      return styles.requestedBackground
+    } else if (friendStatus == "requested") {
+      return styles.requestedBackground
+    } else {
+      return styles.addFriendBackground
     }
   }
   
@@ -122,7 +166,7 @@ const Profile = ({route, navigation}) => {
           </View>
           <View style={{alignItems:'center', justifyContent:'center'}}>
             <TouchableOpacity onPress={addFriend}>
-              <View style={styles.friendBackground}>
+              <View style={styles.addFriendBackground}>
                 <Text style={styles.friendText}>Add Friend</Text>
                 <Icon name="account-plus" size={20} color="#E7ECDF" />
               </View>
@@ -135,7 +179,7 @@ const Profile = ({route, navigation}) => {
             <FlatList
               data={posts}
               renderItem={({ item }) => (
-                <Post navigation={navigation} name={"Loading"} id={null} title={"Loading"} time={"Loading"} profilePic={"Loading"} likes={"Loading"} comments={"Loading"} />
+                <Post navigation={navigation} name={"Loading"} id={null} title={"Loading"} time={"Loading"} profilePic={require('../assets/willow.png')} likes={"Loading"} comments={"Loading"} />
               )}
               contentContainerStyle={styles.scrollView}
               refreshing={refreshing}
@@ -172,7 +216,7 @@ const Profile = ({route, navigation}) => {
           </View>
           <View style={{alignItems:'center', justifyContent:'center'}}>
             <TouchableOpacity onPress={addFriend}>
-              <View style={styles.friendBackground}>
+              <View style={getFriendButtonStyle()}>
                 <Text style={styles.friendText}>Add Friend</Text>
                 <Icon name="account-plus" size={20} color="#E7ECDF" />
               </View>
@@ -185,7 +229,7 @@ const Profile = ({route, navigation}) => {
             <FlatList
               data={posts}
               renderItem={({ item }) => (
-                <Post navigation={navigation} name={item['name']} id= {item['id']} title={item['title']}  time={formatTime(item['time'])} profilePic={profUser.profilePic} likes={item['likes']} comments={item['comments']} />
+                <Post navigation={navigation} name={item['name']} id= {item['id']} title={item['title']}  time={formatTime(item['time'])} profilePic={{uri:profUser.profilePic}} likes={item['likes']} comments={item['comments']} />
               )}
               keyExtractor={(item) => item.id}
               contentContainerStyle={styles.scrollView}
@@ -238,7 +282,7 @@ const styles = StyleSheet.create({
     color: '#E7ECDF',
     padding: 10
   },
-  friendBackground: {
+  addFriendBackground: {
     backgroundColor: '#415A50',
     borderRadius:20,
     marginBottom:20,
@@ -246,6 +290,12 @@ const styles = StyleSheet.create({
     alignItems:'center', 
     justifyContent:'center',
     flexDirection:'row'
+  },
+  friendBackground: {
+    backgroundColor: 'white'
+  },
+  requestedBackground: {
+    backgroundColor: 'yellow'
   },
   text: {
     fontSize: 15,
