@@ -1,15 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, FlatList, StyleSheet, Button, SafeAreaView } from 'react-native';
+import { View, TextInput, FlatList, StyleSheet, Button, SafeAreaView, useFocusEffect } from 'react-native';
 import Notification from '../Components/Notification'; 
 import Header from '../Components/Header';
 import NavBar from '../Components/NavBar';
 import { searchUsers } from '../firebase/user';
 import { downloadImage } from '../firebase/storage';
+import { useContext } from 'react';
+import AppContext from '../Components/AppContext';
 
 const Notifications = ({ route, navigation }) => {
-  const [users, setUsers] = useState([]);
+  const [refreshing, setRefreshing] = useState(false)
+  const [requests, setRequests] = useState([]);
   const [profPics, setProfPics] = useState({})
+  const { currentUser } = useContext(AppContext)
+  const [curUser, _] = currentUser
 
+  useEffect(() => {
+    setRefreshing(true)
+    curUser.getIncomingRequests().then((incoming_requests) => {
+      getProfPics(incoming_requests)
+      .then(() => {
+        setPendingRequests(incoming_requests)
+        setRefreshing(false)
+      })
+    })
+  }, []);
 
   async function getProfPics(results) {
     let profilePics = {}
@@ -32,15 +47,15 @@ const Notifications = ({ route, navigation }) => {
     <View style={styles.container}>
     <Header navigation={navigation} current={'Notifications'} title={"Notifications"} />
       <FlatList
-        data={fakeUsers}
-        keyExtractor={item => item.id}
+        data={requests}
+        keyExtractor={item => item}
         renderItem={({ item }) => (
           <Notification
             route={route}
             navigation={navigation}
-            id={item["username"]}
-            name={item["username"]}
-            profilePic={'../assets/willow.png'}
+            id={item}
+            name={item}
+            profilePic={profPics[item]}
           />
         )}
       />
