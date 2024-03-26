@@ -86,10 +86,10 @@ const styles = StyleSheet.create({
         color:'white'
     }, 
     requestedBackground: {
-        backgroundColor: 'yellow',
+        backgroundColor: '#9c8d5a',
         borderRadius:20,
         marginBottom:20,
-        width:130,
+        width:150,
         alignItems:'center', 
         justifyContent:'center',
         flexDirection:'row',

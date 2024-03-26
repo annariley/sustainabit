@@ -1,16 +1,27 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, useFocusEffect } from 'react-native';
 import colours from '../assets/constants/colours';
 import { useContext } from 'react';
 import AppContext from '../Components/AppContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function Notification({ route, navigation, id, name, profilePic }) {
-  const curUser = useContext(AppContext)
+  const [refreshing, setRefreshing] = useState(false)
+  const [pendingRequests, setPendingRequests] = useState([])
+
+  
 
   const handlePress = () => {
     navigation.navigate('Personal', {profileUserId: id})
   };
+
+  const handleDeny = () => {
+    curUser.denyFriend()
+  }
+
+  const handleAccept = () => {
+
+  }
 
   return (
     <View style={styles.postContainer}>

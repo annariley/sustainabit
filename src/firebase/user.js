@@ -1,5 +1,5 @@
 
-import { getDoc, setDoc, addDoc, collection, doc, Timestamp, getDocs, query, where, orderBy, limit } from 'firebase/firestore'
+import { getDoc, setDoc, addDoc, collection, doc, Timestamp, getDocs, query, where, orderBy, limit, deleteDoc } from 'firebase/firestore'
 import { db } from './firebase';
 import { createNewPost } from './post';
 
@@ -291,6 +291,11 @@ export class user{
                     ref: doc(db, 'users', friend),
                     status: "friends"
                 })
+    }
+
+    denyFriend(friend) {
+        deleteDoc(doc(db, 'users', this.username, 'friends', friend))
+        deleteDoc(doc(db, 'users', friend, 'friends', this.username))
     }
 
     async getFriendLeaderboard() {
