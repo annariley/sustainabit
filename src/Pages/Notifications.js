@@ -25,7 +25,7 @@ const Notifications = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
 
-    <Header navigation={navigation} current={'Search'} title={"Search"} />
+    <Header navigation={navigation} current={'Notifications'} title={"Notifications"} />
       <FlatList
         data={users}
         keyExtractor={item => item.id}

@@ -173,7 +173,7 @@ const Profile = ({route, navigation}) => {
               onRefresh={onRefresh}
             />
           </View>
-          <NavBar navigation={navigation} current={'Personal'}/>
+          <NavBar navigation={navigation} current={curUser==profUser ? 'Personal' : 'Home'}/>
       </View>
     );
   } else {
@@ -217,7 +217,7 @@ const Profile = ({route, navigation}) => {
               onRefresh={onRefresh}
             />
           </View>
-          <NavBar navigation={navigation} current={'Personal'}/>
+          <NavBar navigation={navigation} current={curUser==profUser ? 'Personal' : 'Home'}/>
       </View>
     );
   }
