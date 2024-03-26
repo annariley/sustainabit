@@ -26,6 +26,8 @@ const Profile = ({route, navigation}) => {
   useFocusEffect(
     React.useCallback(() => {
     setUser(null)
+    console.log("CUR USER!!!!")
+    console.log(curUser.userData.uid)
     setButton(<FriendButton callback={addFriend} status={friendStatus}/>)
     console.log("Fetching data for profile: " + route.params['profileUserId'])
     setRefreshing(true)
@@ -72,6 +74,8 @@ const Profile = ({route, navigation}) => {
     } else {
       setFriendStatus(null)
     }
+    console.log("NEW USER!!!")
+    console.log(new_user.userData.uid)
 
     setUser(new_user)
 
@@ -131,6 +135,11 @@ const Profile = ({route, navigation}) => {
     }
   } [profUser]
 
+  function isCurrentUser(){
+    if(curUser && profUser) return curUser.userData.uid==profUser.userData.uid
+    else return false
+    
+  }
 
   
   if (profUser == null){
@@ -173,7 +182,7 @@ const Profile = ({route, navigation}) => {
               onRefresh={onRefresh}
             />
           </View>
-          <NavBar navigation={navigation} current={curUser==profUser ? 'Personal' : 'Home'}/>
+          <NavBar navigation={navigation} current={isCurrentUser() ? 'Personal' : 'Home'}/>
       </View>
     );
   } else {
@@ -217,7 +226,7 @@ const Profile = ({route, navigation}) => {
               onRefresh={onRefresh}
             />
           </View>
-          <NavBar navigation={navigation} current={curUser==profUser ? 'Personal' : 'Home'}/>
+          <NavBar navigation={navigation} current={isCurrentUser() ? 'Personal' : 'Home'}/>
       </View>
     );
   }
