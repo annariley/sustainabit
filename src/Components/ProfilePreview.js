@@ -5,7 +5,8 @@ import { useContext } from 'react';
 import AppContext from '../Components/AppContext';
 
 function ProfilePreview({ route, navigation, id, name, points, profilePic, displayPoints }) {
-  const curUser = useContext(AppContext)
+  const { currentUser } = useContext(AppContext)
+  const [curUser, _] = currentUser
 
   const handlePress = () => {
     navigation.navigate('Personal', {profileUserId: id})

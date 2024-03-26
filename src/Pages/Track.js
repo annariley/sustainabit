@@ -30,11 +30,12 @@ const Track = ({ navigation }) => {
   const [visibility, setVisibility] = useState(null);
   const [commuteType, setCommuteType] = useState(null);
   const [customText, onChangeCustomText] = useState('Describe your activity...');
-  const cur_user = useContext(AppContext)
+  const { currentUser } = useContext(AppContext)
+  const [curUser, _] = currentUser
 
   async function trackActivity() {
-    await cur_user.sync()
-    cur_user.trackActivity(selectedActivity, visibility, commuteType, "tmp", customText, timeCompleted)
+    await curUser.sync()
+    curUser.trackActivity(selectedActivity, visibility, commuteType, "tmp", customText, timeCompleted)
     navigation.navigate('Home')
   }
 

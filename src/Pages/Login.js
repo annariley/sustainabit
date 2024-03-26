@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import NavBar from '../Components/NavBar';
 import Header from '../Components/Header';
 import Post from '../Components/Post';
 import colours from '../assets/constants/colours';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useContext } from 'react';
+import AppContext from '../Components/AppContext';
+import { auth, provider } from '../firebase/firebase'
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
 import { getUsernamefromUID, user, createNewUser } from '../firebase/user';
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Login = ({navigation}) => {
   const [name, setName] = useState('');

@@ -16,12 +16,13 @@ import { requestMediaLibraryPermissionsAsync } from 'expo-image-picker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Profile = ({route, navigation}) => {
+  const { currentUser } = useContext(AppContext)
+  const [curUser, _] = currentUser
   const [refreshing, setRefreshing] = useState(false); // State to track refreshing status
   const [posts, setPosts] = useState([])
   const [profUser, setUser] = useState(null)
   const [friendStatus, setFriendStatus] = useState(null)
   const [button, setButton] = useState(null)
-  const curUser = useContext(AppContext)
 
   useFocusEffect(
     React.useCallback(() => {
@@ -30,8 +31,8 @@ const Profile = ({route, navigation}) => {
     console.log("Fetching data for profile: " + route.params['profileUserId'])
     setRefreshing(true)
 
-    setupUser().then((cur_user) => {
-      getUserFeed(cur_user).then(() => {
+    setupUser().then((curUser) => {
+      getUserFeed(curUser).then(() => {
         setRefreshing(false)
       })
     })
@@ -78,13 +79,13 @@ const Profile = ({route, navigation}) => {
     return new_user
   }
 
-  async function getUserFeed(cur_user) {
+  async function getUserFeed(curUser) {
 
     console.log("Getting Feed...")
 
-    await cur_user.sync()
+    await curUser.sync()
     
-    const load_posts = await cur_user.getPersonalFeed()
+    const load_posts = await curUser.getPersonalFeed()
   
     setPosts(load_posts)
   }

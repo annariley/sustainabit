@@ -6,12 +6,14 @@ import { createNewPost } from './post';
 import { createNewCommuteActivity, createNewCustomActivity, createNewMealActivity } from './activity';
 
 import { downloadImage } from '../firebase/storage';
+import { uploadImage } from '../firebase/storage';
 
 
 
 const DUMMY_VAL = 1
 
 export async function createNewUser(
+    uid,
     firstName,
     lastName,
     username,
@@ -22,6 +24,7 @@ export async function createNewUser(
 ){
     const docRef = await setDoc(doc(db, "users", username),
     {
+        uid: uid,
         firstName: firstName,
         lastName: lastName,
         username: username,
@@ -35,25 +38,34 @@ export async function createNewUser(
         creationTime: Timestamp.now()
     });
 
+    const img_url = await downloadImage('images/profile_pics/willow.png') 
+    
+    const response = await fetch(img_url)
+    const fileData = await response.blob();
+
+    await uploadImage(fileData, `/images/profile_pics/${username}.png`)
+    
     console.log("User Document created with username: ", username)
+
+    return
     
 }
-export async function getUserIdByUsername(username) {
-    const usersRef = collection(db, 'users');
-    const q = query(usersRef, where("username", "==", username));
+
+export async function getUsernamefromUID(uid) {
+    const q = query(collection(db, 'users'), 
+                    where("uid", "==", uid));
     const querySnapshot = await getDocs(q);
 
-    let userId = null; // Default to null if user is not found
+    let username = null; // Default to null if user is not found
     querySnapshot.forEach((doc) => {
         // Assuming username is unique, there should only be one result
-        userId = doc.id; // Get the document ID, which is the user's ID
-        console.log(`User ID for username '${username}': ${userId}`);
+        username = doc.id; // Get the document ID, which is the user's ID
     });
 
-    if (userId) {
-        return userId;
+    if (username) {
+        return username;
     } else {
-        console.log(`No user found with username '${username}'`);
+        console.log(`No user found with uid '${uid}'`);
         return null; // Or handle this case as needed
     }
 }

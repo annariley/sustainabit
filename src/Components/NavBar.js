@@ -8,11 +8,12 @@ import AppContext from '../Components/AppContext';
 
     
 function NavBar({ navigation, current }){
-  const cur_user = useContext(AppContext)
+  const { currentUser } = useContext(AppContext)
+  const [curUser, _] = currentUser
   
   function handlePress(button) {
     if (button == "Personal") {
-      navigation.navigate(button, {profileUserId: cur_user.username})
+      navigation.navigate(button, {profileUserId: curUser.username})
     } else {
       navigation.navigate(button);
     }
