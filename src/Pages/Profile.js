@@ -87,6 +87,10 @@ const Profile = ({route, navigation}) => {
     
     return fullDateTimeString;
   }
+
+  function addFriend() {
+
+  }
   
   if (profUser == null){
     return (
@@ -108,8 +112,15 @@ const Profile = ({route, navigation}) => {
               <Text style={styles.text}>{"Loading..."}</Text>
             </View>
             <View style={styles.headingContainer3}>
-            <Image source={require('../assets/carbonreduced.png')} style={styles.profilePhoto} />
+              <Image source={require('../assets/carbonreduced.png')} style={styles.profilePhoto} />
             </View>
+          </View>
+          <View style={{alignItems:'center', justifyContent:'center'}}>
+            <TouchableOpacity onPress={addFriend}>
+              <View style={styles.friendBackground}>
+                <Text style={styles.friendText}>Add Friend</Text>
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.flatListContainer}>
             <View style={styles.activityHeaderContainer}>
@@ -150,6 +161,14 @@ const Profile = ({route, navigation}) => {
             <View style={styles.headingContainer3}>
             <Image source={require('../assets/carbonreduced.png')} style={styles.profilePhoto} />
             </View>
+            
+          </View>
+          <View style={{alignItems:'center', justifyContent:'center'}}>
+            <TouchableOpacity onPress={addFriend}>
+              <View style={styles.friendBackground}>
+                <Text style={styles.friendText}>Add Friend</Text>
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.flatListContainer}>
             <View style={styles.activityHeaderContainer}>
@@ -205,6 +224,21 @@ const styles = StyleSheet.create({
     borderRadius:20,
     marginVertical:10
   },
+  friendText: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#E7ECDF',
+    padding: 10
+  },
+  friendBackground: {
+    backgroundColor: '#415A50',
+    borderRadius:20,
+    marginVertical:10,
+    width:200,
+    alignItems:'center', 
+    justifyContent:'center',
+    flexDirection:'row'
+  },
   text: {
     fontSize: 14,
     color: '#415A50',
@@ -220,7 +254,7 @@ const styles = StyleSheet.create({
     justifyContent:'center'
   },
   flatListContainer:{
-    height:250,
+    height:200,
   },
   logo: {
     width: 100,
