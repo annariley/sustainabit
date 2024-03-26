@@ -14,18 +14,21 @@ import { getUsernamefromUID, user, createNewUser } from '../firebase/user';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Login = ({navigation}) => {
+  const { currentUser } = useContext(AppContext)
+  const [curUser, setCurUser] = currentUser
   const [first, setFirst] = useState('');
   const [last, setLast] = useState('');
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [reference, setReference] = useState('');  
+  const [reference, setReference] = useState(''); 
+
   const handleCreateProfile = () => {
     // Handle the profile creation logic
     console.log('Creating profile with the following details:', { first, last, email, password, reference });
     create(email, password, first, last, username, 'Vancouver')
-    navigation.navigate('Home')
   };
+  
   function login(email, password) {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -46,11 +49,8 @@ const Login = ({navigation}) => {
   function create(email, password, firstName, lastName, username, location){
     createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
-        console.log("Created Auth for ", userCredential)
         const sign_user = userCredential.user;
         const uid = sign_user['uid']
-        console.log(uid)
-        console.log(firstName)
         createNewUser(uid, firstName, lastName, username, password, email, location, 'tmp').then(() => {
           console.log("Created new user: ", username)
           const new_user = new user(username)

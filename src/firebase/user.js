@@ -43,7 +43,7 @@ export async function createNewUser(
     const response = await fetch(img_url)
     const fileData = await response.blob();
 
-    await uploadImage(fileData, `/images/profile_pics/${username}.png`)
+    await uploadImage(fileData, `images/profile_pics/${username}.png`)
     
     console.log("User Document created with username: ", username)
 
