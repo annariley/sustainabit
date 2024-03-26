@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, FlatList, StyleSheet, Button, SafeAreaView } from 'react-native';
-import ProfilePreview from '../Components/ProfilePreview'; 
+import Notification from '../Components/Notification'; 
 import Header from '../Components/Header';
 import NavBar from '../Components/NavBar';
 import { searchUsers } from '../firebase/user';
@@ -22,22 +22,25 @@ const Notifications = ({ route, navigation }) => {
     setProfPics(profilePics)
   }
 
+  const fakeUsers = [
+        {
+            username: 'joelcheney'
+        }
+    ]
+
   return (
     <View style={styles.container}>
-
     <Header navigation={navigation} current={'Notifications'} title={"Notifications"} />
       <FlatList
-        data={users}
+        data={fakeUsers}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <ProfilePreview
+          <Notification
             route={route}
             navigation={navigation}
             id={item["username"]}
             name={item["username"]}
-            points={item["score"]}
-            profilePic={profPics[item["username"]]}
-            displayPoints={false}
+            profilePic={'../assets/willow.png'}
           />
         )}
       />

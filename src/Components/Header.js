@@ -29,7 +29,7 @@ function Header ({ navigation, current, title }) {
         <TouchableOpacity style={styles.headerButton}>
           <Image source={require('../assets/gears.png')} style={styles.headerIcon} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.headerButton} /*onPress={handleNotifications}*/ >
+        <TouchableOpacity style={styles.headerButton} onPress={handleNotifications} >
           <Image source={require('../assets/bell.png')} style={styles.headerIcon} />
         </TouchableOpacity>
       </SafeAreaView>
