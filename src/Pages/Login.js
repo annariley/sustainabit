@@ -27,6 +27,11 @@ const Login = ({navigation}) => {
     // Handle the profile creation logic
     console.log('Creating profile with the following details:', { first, last, email, password, reference });
     create(email, password, first, last, username, 'Vancouver')
+  };  
+  const handleLogIn = () => {
+    // Handle the profile creation logic
+    console.log('Creating profile with the following details:', { first, last, email, password, reference });
+    login(email, password)
   };
   
   function login(email, password) {
@@ -123,6 +128,13 @@ const Login = ({navigation}) => {
       >
         <Text style={styles.buttonText}>create profile</Text>
       </TouchableOpacity>
+      <Text style={styles.smallText}>already have an account?</Text>
+      <TouchableOpacity
+        onPress={handleLogIn}
+        style={styles.logInButton}
+      >
+        <Text style={styles.buttonText}>log in</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -171,8 +183,19 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginTop: 20
   },
+  logInButton: {
+    backgroundColor: '#50692D', // Match this with your button's background color
+    padding: 10,
+    borderRadius: 20,
+  },
   buttonText: {
     color:'#F8F1D5',
+  },
+  smallText: {
+    color:'#F8F1D5',
+    fontSize:12,
+    marginTop:14,
+    marginBottom:8
   },
 });
 
