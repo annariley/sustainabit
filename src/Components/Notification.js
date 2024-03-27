@@ -5,22 +5,24 @@ import { useContext } from 'react';
 import AppContext from '../Components/AppContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-function Notification({ route, navigation, id, name, profilePic }) {
-  const [refreshing, setRefreshing] = useState(false)
-  const [pendingRequests, setPendingRequests] = useState([])
-
-  
+function Notification({ route, navigation, id, name, profilePic, callback }) {
+  const { currentUser } = useContext(AppContext)
+  const [curUser, _] = currentUser
 
   const handlePress = () => {
     navigation.navigate('Personal', {profileUserId: id})
   };
 
-  const handleDeny = () => {
-    curUser.denyFriend()
+  async function handleDeny() {
+    console.log("Denying friend: ", name)
+    await curUser.denyFriend(name)
+    callback()
   }
 
-  const handleAccept = () => {
-
+  async function handleAccept() {
+    console.log("Accepting Friend: ", name)
+    await curUser.confirmFriend(name)
+    callback()
   }
 
   return (
@@ -29,11 +31,11 @@ function Notification({ route, navigation, id, name, profilePic }) {
           <Image source={{ uri: profilePic }} style={styles.profileIcon} />
           <Text style={styles.postTitle}>{name}</Text>
           <View style={{justifyContent:'flex-end', flexDirection:'row', width:250, marginRight:10}}>
-            <TouchableOpacity style={styles.denyBackground}>
+            <TouchableOpacity style={styles.denyBackground} onPress={handleDeny}>
                 <Text style={{color: '#50692D'}}>Deny</Text>
                 <Icon name="account-remove" size={20} color="#50692D" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.acceptBackground}>
+            <TouchableOpacity style={styles.acceptBackground} onPress={handleAccept}>
                 <Text style={{color: '#50692D'}}>Accept</Text>
                 <Icon name="account-check" size={20} color="#50692D" />
             </TouchableOpacity>
