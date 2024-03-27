@@ -17,31 +17,41 @@ const Notifications = ({ route, navigation }) => {
 
   useEffect(() => {
     setRefreshing(true)
-    curUser.getIncomingRequests().then((incoming_requests) => {
-      getProfPics(incoming_requests)
-      .then(() => {
-        setPendingRequests(incoming_requests)
-        setRefreshing(false)
+      curUser.getIncomingRequests().then((incoming_requests) => {
+        console.log("Incoming requests: ", incoming_requests)
+        getProfPics(incoming_requests)
+        .then(() => {
+          if (requests.length != incoming_requests.length) {
+            setRequests(incoming_requests)
+          }
+          setRefreshing(false)
+        })
       })
-    })
-  }, []);
+  }, [requests]);
 
   async function getProfPics(results) {
     let profilePics = {}
     for (let i = 0; i < results.length; i++) {
-      if (!(results[i]['username'] in profilePics)) {
-        profilePics[results[i]['username']] = await downloadImage(`/images/profile_pics/${results[i]['username']}.png`)
+      if (!(results[i] in profilePics)) {
+        profilePics[results[i]] = await downloadImage(`/images/profile_pics/${results[i]}.png`)
       }
     }
 
     setProfPics(profilePics)
   }
 
-  const fakeUsers = [
-        {
-            username: 'joelcheney'
+  function callback() {
+    curUser.getIncomingRequests().then((incoming_requests) => {
+      console.log("Incoming requests: ", incoming_requests)
+      getProfPics(incoming_requests)
+      .then(() => {
+        if (requests.length != incoming_requests.length) {
+          setRequests(incoming_requests)
         }
-    ]
+        setRefreshing(false)
+      })
+    })
+  }
 
   return (
     <View style={styles.container}>
@@ -56,6 +66,7 @@ const Notifications = ({ route, navigation }) => {
             id={item}
             name={item}
             profilePic={profPics[item]}
+            callback={callback}
           />
         )}
       />
